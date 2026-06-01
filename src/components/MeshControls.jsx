@@ -1,13 +1,21 @@
 import { useStore } from "../store";
 
+const MODES = [
+  { id: "surface", label: "Malla" },
+  { id: "wireframe", label: "Wireframe" },
+  { id: "points", label: "Puntos" },
+];
+
 export function MeshControls() {
   const resolution = useStore((s) => s.resolution);
   const setResolution = useStore((s) => s.setResolution);
+  const surfaceMode = useStore((s) => s.surfaceMode);
+  const setSurfaceMode = useStore((s) => s.setSurfaceMode);
 
   const pointCount = (resolution * resolution).toLocaleString("es-MX");
 
   return (
-    <section className="pt-4 pb-4 pl-5 pr-4 border border-line/80 rounded-[14px] bg-white/80 shadow-[0_10px_26px_rgba(20,30,24,0.06)]">
+    <section className="section-panel border border-line/80 rounded-[14px] bg-white/80 shadow-[0_10px_26px_rgba(20,30,24,0.06)]">
       <div className="flex items-start justify-between gap-3 mb-3.5">
         <div>
           <span className="block text-rust-500 font-mono text-[0.64rem] font-semibold tracking-[0.16em]">
@@ -23,6 +31,27 @@ export function MeshControls() {
       </div>
 
       <div className="grid gap-3">
+        <label className="text-muted text-[0.72rem] font-bold tracking-[0.08em] uppercase">
+          Estilo
+        </label>
+        <div className="flex gap-1.5">
+          {MODES.map((m) => (
+            <button
+              key={m.id}
+              onClick={() => setSurfaceMode(m.id)}
+              className={`flex-1 py-1.5 rounded-lg text-[0.72rem] font-bold tracking-[0.04em] transition-colors ${
+                surfaceMode === m.id
+                  ? "bg-ink text-white shadow-sm"
+                  : "bg-white/60 text-muted hover:bg-white/90"
+              }`}
+            >
+              {m.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="grid gap-3 mt-3">
         <div className="flex items-center justify-between gap-3">
           <label className="text-muted text-[0.72rem] font-bold tracking-[0.08em] uppercase">
             Resolucion

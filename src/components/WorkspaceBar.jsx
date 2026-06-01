@@ -28,7 +28,7 @@ export function WorkspaceBar() {
   }, []);
 
   return (
-    <div className="flex items-center justify-between gap-3.5 min-h-[78px] px-[1.125rem] py-3.5 border border-[#2a3328] rounded-[16px] bg-[linear-gradient(120deg,rgba(31,35,29,0.97),rgba(19,22,16,0.97))] text-white shadow-[0_24px_70px_rgba(16,20,14,0.34)]">
+    <div className="section-panel flex items-center justify-between gap-3.5 min-h-[78px] px-[23px] py-[19px] border border-[#2a3328] rounded-[16px] bg-[linear-gradient(120deg,rgba(31,35,29,0.97),rgba(19,22,16,0.97))] text-white shadow-[0_24px_70px_rgba(16,20,14,0.34)]">
       <div className="min-w-0">
         <p className="text-white/64 text-[0.72rem] font-extrabold tracking-[0.14em] uppercase">
           Vista interactiva

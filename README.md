@@ -43,14 +43,14 @@
 
 ## Stack tecnologico
 
-| Capa | Tecnologia | Por que? |
-|------|-----------|----------|
-| Build | **Rsbuild (Rspack)** | Builds ~10x mas rapidos que Webpack |
-| UI | **React 19** | Rendering eficiente con concurrent features |
-| Estado | **Zustand** | State management ligero, sin boilerplate |
-| Estilos | **Tailwind CSS v4** | Utility-first, CSS optimizado en produccion |
-| Graficos | **Plotly.js Basic** | Motor 3D WebGL, bundle optimizado (1 MB vs 4.4 MB) |
-| Paquetes | **pnpm** | Deduplicacion global, ~70% menos espacio en disco |
+| Capa     | Tecnologia           | Por que?                                           |
+| -------- | -------------------- | -------------------------------------------------- |
+| Build    | **Rsbuild (Rspack)** | Builds ~10x mas rapidos que Webpack                |
+| UI       | **React 19**         | Rendering eficiente con concurrent features        |
+| Estado   | **Zustand**          | State management ligero, sin boilerplate           |
+| Estilos  | **Tailwind CSS v4**  | Utility-first, CSS optimizado en produccion        |
+| Graficos | **Plotly.js Basic**  | Motor 3D WebGL, bundle optimizado (1 MB vs 4.4 MB) |
+| Paquetes | **pnpm**             | Deduplicacion global, ~70% menos espacio en disco  |
 
 ## Empezar
 
@@ -113,36 +113,36 @@ ecuaciones-react/
 
 ## Ejemplos incluidos
 
-| Nombre | Ecuacion |
-|--------|----------|
-| Ondas concentricas | `sin(sqrt(x^2 + y^2))` |
-| Silla de montar | `x^2 - y^2` |
-| Gaussiana 2D | `exp(-(x^2 + y^2) / 8)` |
-| Sombrero mexicano | `(1 - (x^2 + y^2)/2) * exp(-(x^2 + y^2)/4)` |
-| Rosenbrock | `(1 - x)^2 + 100*(y - x^2)^2` |
-| Onda sinusoidal | `sin(x) * cos(y)` |
-| Funcion Peaks | `3*(1-x)^2*exp(-x^2 - (y+1)^2) - ...` |
-| Espirales | `sin(x^2 + y^2) * cos(x*y)` |
-| Toroide | `cos(sqrt((x-3)^2 + y^2)) + cos(sqrt((x+3)^2 + y^2))` |
-| Fractal suave | `sin(x) * sin(y) + sin(3*x) * cos(3*y) / 3` |
+| Nombre             | Ecuacion                                              |
+| ------------------ | ----------------------------------------------------- |
+| Ondas concentricas | `sin(sqrt(x^2 + y^2))`                                |
+| Silla de montar    | `x^2 - y^2 * 2`                                       |
+| Gaussiana 2D       | `exp(-(x^2 + y^2) / 8)`                               |
+| Sombrero mexicano  | `(1 - (x^2 + y^2)/2) * exp(-(x^2 + y^2)/4)`           |
+| Rosenbrock         | `(1 - x)^2 + 100*(y - x^2)^2`                         |
+| Onda sinusoidal    | `sin(x) * cos(y)`                                     |
+| Funcion Peaks      | `3*(1-x)^2*exp(-x^2 - (y+1)^2) - ...`                 |
+| Espirales          | `sin(x^2 + y^2) * cos(x*y)`                           |
+| Toroide            | `cos(sqrt((x-3)^2 + y^2)) + cos(sqrt((x+3)^2 + y^2))` |
+| Fractal suave      | `sin(x) * sin(y) + sin(3*x) * cos(3*y) / 3`           |
 
 ## Funciones soportadas
 
-| Tipo | Funciones |
-|------|-----------|
+| Tipo            | Funciones                                            |
+| --------------- | ---------------------------------------------------- |
 | Trigonometricas | `sin`, `cos`, `tan`, `asin`, `acos`, `atan`, `atan2` |
-| Hiperbolicas | `sinh`, `cosh`, `tanh` |
-| Potencia | `sqrt`, `cbrt`, `pow`, `exp` |
-| Logaritmos | `log`, `log2`, `log10` |
-| Redondeo | `floor`, `ceil`, `round`, `abs` |
-| Otros | `max`, `min`, `random`, `pi`, `e` |
+| Hiperbolicas    | `sinh`, `cosh`, `tanh`                               |
+| Potencia        | `sqrt`, `cbrt`, `pow`, `exp`                         |
+| Logaritmos      | `log`, `log2`, `log10`                               |
+| Redondeo        | `floor`, `ceil`, `round`, `abs`                      |
+| Otros           | `max`, `min`, `random`, `pi`, `e`                    |
 
 ## Controles del mouse
 
-| Accion | Control |
-|--------|---------|
-| Rotar | Arrastrar |
-| Zoom | Scroll |
+| Accion    | Control           |
+| --------- | ----------------- |
+| Rotar     | Arrastrar         |
+| Zoom      | Scroll            |
 | Desplazar | Shift + Arrastrar |
 
 ## License

@@ -27,11 +27,20 @@ export const useStore = create((set, get) => ({
   },
 
   resolution: 80,
-  setResolution: (resolution) => set({ resolution }),
+  setResolution: (resolution) => {
+    set({ resolution });
+    get().renderSurface();
+  },
 
   colorScale: "Viridis",
   setColorScale: (colorScale) => {
     set({ colorScale });
+    get().renderSurface();
+  },
+
+  surfaceMode: "surface",
+  setSurfaceMode: (surfaceMode) => {
+    set({ surfaceMode });
     get().renderSurface();
   },
 
@@ -136,6 +145,7 @@ export const useStore = create((set, get) => ({
       yMax: DEFAULT_RANGE[1],
       resolution: 80,
       colorScale: "Viridis",
+      surfaceMode: "surface",
     });
     setTimeout(() => get().renderSurface(), 0);
   },

@@ -9,7 +9,7 @@ export const EXAMPLES = [
   {
     name: "Silla de montar",
     emoji: "\u{1F3AF}",
-    eq: "x^2 - y^2",
+    eq: "x^2 - y^2 * 2",
     xRange: [-5, 5],
     yRange: [-5, 5],
   },

@@ -44,15 +44,66 @@ const CONFIG = {
 export function PlotViewer() {
   const plotData = useStore((s) => s.plotData);
   const colorScale = useStore((s) => s.colorScale);
+  const surfaceMode = useStore((s) => s.surfaceMode);
 
   const data = useMemo(() => {
     if (!plotData) return [];
+    const { x, y, z } = plotData;
+    const hoverTpl = "x: %{x:.2f}<br>y: %{y:.2f}<br>z: %{z:.4f}<extra></extra>";
+
+    if (surfaceMode === "points") {
+      const xp = [], yp = [], zp = [];
+      for (let i = 0; i < y.length; i++) {
+        for (let j = 0; j < x.length; j++) {
+          xp.push(x[j]);
+          yp.push(y[i]);
+          zp.push(z[i][j]);
+        }
+      }
+      return [{
+        type: "scatter3d",
+        mode: "markers",
+        x: xp, y: yp, z: zp,
+        marker: { size: 2, color: zp, colorscale: colorScale, showscale: false },
+        hovertemplate: hoverTpl,
+      }];
+    }
+
+    if (surfaceMode === "wireframe") {
+      const traces = [];
+      for (let i = 0; i < y.length; i++) {
+        traces.push({
+          type: "scatter3d",
+          mode: "lines",
+          x: x,
+          y: Array(x.length).fill(y[i]),
+          z: z[i],
+          line: { width: 1.5, color: z[i], colorscale: colorScale },
+          hoverinfo: "skip",
+          showlegend: false,
+        });
+      }
+      for (let j = 0; j < x.length; j++) {
+        const col = z.map((row) => row[j]);
+        traces.push({
+          type: "scatter3d",
+          mode: "lines",
+          x: Array(y.length).fill(x[j]),
+          y: y,
+          z: col,
+          line: { width: 1.5, color: col, colorscale: colorScale },
+          hoverinfo: "skip",
+          showlegend: false,
+        });
+      }
+      return traces;
+    }
+
+    // surface (default)
     return [
       {
         type: "surface",
-        x: plotData.x,
-        y: plotData.y,
-        z: plotData.z,
+        x, y, z,
         colorscale: colorScale,
         contours: {
           z: {
@@ -63,12 +114,11 @@ export function PlotViewer() {
           },
         },
         lighting: { ambient: 0.6, diffuse: 0.7, specular: 0.3, roughness: 0.4 },
-        hovertemplate:
-          "x: %{x:.2f}<br>y: %{y:.2f}<br>z: %{z:.4f}<extra></extra>",
+        hovertemplate: hoverTpl,
         showscale: false,
       },
     ];
-  }, [plotData, colorScale]);
+  }, [plotData, colorScale, surfaceMode]);
 
   return (
     <div className="relative flex-1 min-h-[320px] overflow-hidden border border-[#2d362a] rounded-[18px] shadow-[0_28px_80px_rgba(15,20,12,0.42)]">

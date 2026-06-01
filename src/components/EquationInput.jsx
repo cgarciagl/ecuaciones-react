@@ -14,7 +14,7 @@ export function EquationInput() {
   );
 
   return (
-    <section className="pt-4 pb-4 pl-5 pr-4 border border-line/80 rounded-[14px] bg-[linear-gradient(160deg,rgba(255,255,255,0.94),rgba(249,253,250,0.9))] shadow-[0_10px_26px_rgba(20,30,24,0.07)]">
+    <section className="section-panel border border-line/80 rounded-[14px] bg-[linear-gradient(160deg,rgba(255,255,255,0.94),rgba(249,253,250,0.9))] shadow-[0_10px_26px_rgba(20,30,24,0.07)]">
       <div className="flex items-start justify-between gap-3 mb-4">
         <div>
           <span className="block text-rust-500 font-mono text-[0.64rem] font-semibold tracking-[0.16em]">
