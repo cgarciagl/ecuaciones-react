@@ -1,10 +1,16 @@
 <div align="center">
 
 ```
-  ██▀▀█ █▀▄ ▀█▀
-  ██▄▄█ █▀▄  █
+            z
+            |    _   _   _
+            |   / \_/ \_/ \
+            |  /  / \ / \  \
+            | /__/___/ \___\_\__
+            +------------------- y
+           /
+          / x
 
-  f(x,y) → superficie 3D
+        z = sin(sqrt(x² + y²))
 ```
 
 [![Deploy to GitHub Pages](https://img.shields.io/badge/Deploy-GitHub_Pages-0969da?style=for-the-badge&logo=github&logoColor=white)](https://cgarciagl.github.io/ecuaciones-react/)
