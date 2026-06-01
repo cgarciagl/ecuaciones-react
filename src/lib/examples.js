@@ -1,12 +1,4 @@
-export interface Example {
-  name: string;
-  emoji: string;
-  eq: string;
-  xRange: [number, number];
-  yRange: [number, number];
-}
-
-export const EXAMPLES: Example[] = [
+export const EXAMPLES = [
   {
     name: "Ondas concentricas",
     emoji: "\u{1F30A}",

@@ -1,4 +1,4 @@
-const MATH_FUNCTIONS: Record<string, string> = {
+const MATH_FUNCTIONS = {
   pi: "Math.PI",
   sin: "Math.sin",
   cos: "Math.cos",
@@ -27,15 +27,15 @@ const MATH_FUNCTIONS: Record<string, string> = {
   e: "Math.E",
 };
 
-const ALLOWED_VARS: Record<string, boolean> = { x: true, y: true };
+const ALLOWED_VARS = { x: true, y: true };
 const TOKEN_RE = /[a-zA-Z_]\w*|\d+\.?\d*|[+\-*/^(),]/g;
 
-function tokenize(expr: string): string[] {
+function tokenize(expr) {
   return expr.match(TOKEN_RE) || [];
 }
 
-function fixUnaryOperators(tokens: string[]): string[] {
-  const result: string[] = [];
+function fixUnaryOperators(tokens) {
+  const result = [];
   for (let i = 0; i < tokens.length; i++) {
     const tok = tokens[i];
     if (tok === "-" || tok === "+") {
@@ -52,8 +52,8 @@ function fixUnaryOperators(tokens: string[]): string[] {
   return result;
 }
 
-function fixExponentiation(tokens: string[]): string[] {
-  const result: string[] = [];
+function fixExponentiation(tokens) {
+  const result = [];
   for (let i = 0; i < tokens.length; i++) {
     const tok = tokens[i];
     if (tok === "^") {
@@ -61,12 +61,12 @@ function fixExponentiation(tokens: string[]): string[] {
         result.push("^");
         continue;
       }
-      const last = result.pop()!;
+      const last = result.pop();
       if (last === ")") {
         const group = [last];
         let balance = 1;
         while (balance > 0 && result.length > 0) {
-          const t = result.pop()!;
+          const t = result.pop();
           if (t === ")") balance++;
           else if (t === "(") balance--;
           group.unshift(t);
@@ -87,8 +87,8 @@ function fixExponentiation(tokens: string[]): string[] {
   return result;
 }
 
-function insertImplicitMul(tokens: string[]): string[] {
-  const result: string[] = [];
+function insertImplicitMul(tokens) {
+  const result = [];
   for (let i = 0; i < tokens.length; i++) {
     const curr = tokens[i];
     if (i > 0) {
@@ -106,7 +106,7 @@ function insertImplicitMul(tokens: string[]): string[] {
   return result;
 }
 
-function mapTokens(tokens: string[]): string[] {
+function mapTokens(tokens) {
   return tokens.map((tok) => {
     if (MATH_FUNCTIONS[tok]) return MATH_FUNCTIONS[tok];
     if (tok === "^") return "**";
@@ -114,7 +114,7 @@ function mapTokens(tokens: string[]): string[] {
   });
 }
 
-function validateVars(mapped: string[]): void {
+function validateVars(mapped) {
   for (const tok of mapped) {
     if (
       /^[a-zA-Z_]\w*$/.test(tok) &&
@@ -128,7 +128,7 @@ function validateVars(mapped: string[]): void {
   }
 }
 
-export function buildMathFunction(expr: string): (x: number, y: number) => number {
+export function buildMathFunction(expr) {
   const tokens = tokenize(expr);
   const withoutUnary = fixUnaryOperators(tokens);
   const fixedExp = fixExponentiation(withoutUnary);
@@ -138,10 +138,7 @@ export function buildMathFunction(expr: string): (x: number, y: number) => numbe
   const code = mapped.join(" ");
 
   try {
-    return new Function("x", "y", `return (${code})`) as (
-      x: number,
-      y: number
-    ) => number;
+    return new Function("x", "y", `return (${code})`);
   } catch {
     throw new Error(
       "Error de sintaxis en la expresion. Revisa los parentesis y operadores."
@@ -149,21 +146,17 @@ export function buildMathFunction(expr: string): (x: number, y: number) => numbe
   }
 }
 
-export function linspace(start: number, end: number, n: number): number[] {
+export function linspace(start, end, n) {
   const step = (end - start) / (n - 1);
-  const arr: number[] = [];
+  const arr = [];
   for (let i = 0; i < n; i++) arr.push(start + step * i);
   return arr;
 }
 
-export function generateZ(
-  fn: (x: number, y: number) => number,
-  xArr: number[],
-  yArr: number[]
-): (number | null)[][] {
-  const z: (number | null)[][] = [];
+export function generateZ(fn, xArr, yArr) {
+  const z = [];
   for (let j = 0; j < yArr.length; j++) {
-    const row: (number | null)[] = [];
+    const row = [];
     for (let i = 0; i < xArr.length; i++) {
       const val = fn(xArr[i], yArr[j]);
       row.push(isFinite(val) ? val : null);

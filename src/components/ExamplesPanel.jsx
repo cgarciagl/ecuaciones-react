@@ -52,7 +52,6 @@ export function ExamplesSheet() {
         examplesOpen ? "pointer-events-auto" : "pointer-events-none"
       }`}
     >
-      {/* Backdrop */}
       <button
         type="button"
         onClick={closeExamples}
@@ -61,13 +60,11 @@ export function ExamplesSheet() {
           examplesOpen ? "bg-ink/38" : "bg-transparent"
         }`}
       />
-      {/* Panel */}
       <div
         className={`absolute right-2.5 bottom-2.5 left-2.5 flex flex-col max-h-[min(74vh,620px)] p-3 border border-line rounded-t-[18px] rounded-b-[10px] bg-panel/98 shadow-[0_-22px_60px_rgba(17,20,15,0.22)] transition-transform duration-200 ease-out ${
           examplesOpen ? "translate-y-0" : "translate-y-[calc(100%+18px)]"
         }`}
       >
-        {/* Handle */}
         <div className="self-center w-[42px] h-1 mb-2.5 rounded-full bg-line-strong" />
 
         <div className="flex items-center justify-between gap-3 mb-2.5">

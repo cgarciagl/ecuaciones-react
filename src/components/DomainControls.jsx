@@ -6,6 +6,13 @@ const PRESETS = [
   { label: "Pi", value: "-3.14,3.14,-3.14,3.14" },
 ];
 
+const FIELDS = [
+  ["xMin", "X min"],
+  ["xMax", "X max"],
+  ["yMin", "Y min"],
+  ["yMax", "Y max"],
+];
+
 export function DomainControls() {
   const xMin = useStore((s) => s.xMin);
   const xMax = useStore((s) => s.xMax);
@@ -15,15 +22,13 @@ export function DomainControls() {
   const setDomainPreset = useStore((s) => s.setDomainPreset);
   const renderSurface = useStore((s) => s.renderSurface);
 
-  const handleChange = (field: "xMin" | "xMax" | "yMin" | "yMax", value: string) => {
+  const values = { xMin, xMax, yMin, yMax };
+
+  const handleChange = (field, value) => {
     const num = parseFloat(value);
     if (isNaN(num)) return;
     const newState = { xMin, xMax, yMin, yMax, [field]: num };
     setDomain(newState.xMin, newState.xMax, newState.yMin, newState.yMax);
-  };
-
-  const handleBlur = () => {
-    renderSurface();
   };
 
   return (
@@ -43,22 +48,17 @@ export function DomainControls() {
       </div>
 
       <div className="grid grid-cols-2 gap-2">
-        {([
-          ["xMin", "X min", xMin],
-          ["xMax", "X max", xMax],
-          ["yMin", "Y min", yMin],
-          ["yMax", "Y max", yMax],
-        ] as const).map(([field, label, value]) => (
+        {FIELDS.map(([field, label]) => (
           <div key={field} className="grid gap-1">
             <label className="text-muted text-[0.68rem] font-extrabold tracking-[0.09em] uppercase">
               {label}
             </label>
             <input
               type="number"
-              value={value}
+              value={values[field]}
               step={0.01}
               onChange={(e) => handleChange(field, e.target.value)}
-              onBlur={handleBlur}
+              onBlur={() => renderSurface()}
               className="w-full min-h-[42px] py-2 px-2.5 border border-line rounded-lg outline-none bg-[#fcfffc] text-ink font-mono text-[0.82rem] transition-all focus:border-moss-600 focus:shadow-[0_0_0_3px_rgba(47,95,70,0.12)]"
             />
           </div>

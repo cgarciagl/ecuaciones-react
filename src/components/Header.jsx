@@ -1,5 +1,3 @@
-import { useStore } from "../store";
-
 export function Header() {
   return (
     <header className="flex items-center justify-between gap-4 min-h-[72px] px-5 py-3.5 border border-line rounded-lg bg-white/86 shadow-[0_12px_34px_rgba(30,45,35,0.08)] backdrop-blur-xl col-span-full">

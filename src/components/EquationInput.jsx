@@ -7,17 +7,17 @@ export function EquationInput() {
   const equation = useStore((s) => s.equation);
   const setEquation = useStore((s) => s.setEquation);
   const renderSurface = useStore((s) => s.renderSurface);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef(null);
 
   const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
+    (e) => {
       if (e.key === "Enter") renderSurface();
     },
     [renderSurface]
   );
 
   const insertFunction = useCallback(
-    (fn: string) => {
+    (fn) => {
       const input = inputRef.current;
       if (!input) return;
       const start = input.selectionStart ?? equation.length;

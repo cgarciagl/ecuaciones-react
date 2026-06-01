@@ -1,8 +1,11 @@
 import { useMemo } from "react";
-import Plot from "react-plotly.js";
+import createPlotlyComponent from "react-plotly.js/factory";
+import Plotly from "plotly.js-basic-dist-min";
 import { useStore } from "../store";
 
-function axisCfg(label: string, color: string) {
+const Plot = createPlotlyComponent(Plotly);
+
+function axisCfg(label, color) {
   return {
     title: {
       text: label,
@@ -46,7 +49,7 @@ export function PlotViewer() {
     if (!plotData) return [];
     return [
       {
-        type: "surface" as const,
+        type: "surface",
         x: plotData.x,
         y: plotData.y,
         z: plotData.z,
@@ -69,7 +72,6 @@ export function PlotViewer() {
 
   return (
     <div className="relative flex-1 min-h-[320px] overflow-hidden border border-line rounded-lg shadow-[0_24px_70px_rgba(30,45,35,0.15)]">
-      {/* Background gradient */}
       <div
         className="absolute inset-0 z-0"
         style={{
@@ -79,13 +81,12 @@ export function PlotViewer() {
           `,
         }}
       />
-      {/* Inner border accent */}
       <div className="absolute inset-2.5 z-20 border border-white/12 rounded-[7px] pointer-events-none" />
 
       {plotData ? (
         <Plot
           data={data}
-          layout={LAYOUT as any}
+          layout={LAYOUT}
           config={CONFIG}
           useResizeHandler
           style={{ position: "absolute", inset: 0, width: "100%", height: "100%", zIndex: 1 }}

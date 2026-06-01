@@ -28,7 +28,7 @@
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
 [![Zustand](https://img.shields.io/badge/Zustand-3B3B3B?style=for-the-badge)](https://zustand-demo.pmnd.rs/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38BDF8?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![pnpm](https://img.shields.io/badge/pnpm-F69220?style=for-the-badge&logo=pnpm&logoColor=white)](https://pnpm.io/)
 
 </div>
 
@@ -54,32 +54,32 @@
 
 | Capa | Tecnologia | Por que? |
 |------|-----------|----------|
-| Build | **Vite + Rspack** | Builds ~10x mas rapidos que Webpack |
+| Build | **Rsbuild (Rspack)** | Builds ~10x mas rapidos que Webpack |
 | UI | **React 19** | Rendering eficiente con concurrent features |
 | Estado | **Zustand** | State management ligero, sin boilerplate |
 | Estilos | **Tailwind CSS v4** | Utility-first, CSS optimizado en produccion |
-| Graficos | **Plotly.js** | Motor 3D profesional con WebGL |
-| Tipos | **TypeScript** | Seguridad en tiempo de compilacion |
+| Graficos | **Plotly.js Basic** | Motor 3D WebGL, bundle optimizado (1 MB vs 4.4 MB) |
+| Paquetes | **pnpm** | Deduplicacion global, ~70% menos espacio en disco |
 
 ## Empezar
 
 ### Requisitos
 
 - [Node.js](https://nodejs.org/) >= 18
-- npm
+- [pnpm](https://pnpm.io/) (`npm install -g pnpm`)
 
 ### Instalacion
 
 ```bash
 git clone https://github.com/cgarciagl/ecuaciones-react.git
 cd ecuaciones-react
-npm install
+pnpm install
 ```
 
 ### Desarrollo
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
@@ -87,8 +87,8 @@ Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
 ### Produccion
 
 ```bash
-npm run build
-npm run preview
+pnpm build
+pnpm preview
 ```
 
 ## Estructura del proyecto
@@ -97,29 +97,27 @@ npm run preview
 ecuaciones-react/
 ├── src/
 │   ├── components/
-│   │   ├── ActionRow.tsx        # Botones generar/reset
-│   │   ├── ColorPicker.tsx      # Selector de escala de color
-│   │   ├── DomainControls.tsx   # Controles de rango X/Y
-│   │   ├── EquationInput.tsx    # Input de ecuacion + funciones
-│   │   ├── ErrorOverlay.tsx     # Overlay de errores
-│   │   ├── ExamplesPanel.tsx    # Panel de ejemplos
-│   │   ├── Footer.tsx           # Barra de atajos
-│   │   ├── Header.tsx           # Logo y titulo
-│   │   ├── MeshControls.tsx     # Slider de resolucion
-│   │   ├── PlotViewer.tsx       # Grafico 3D Plotly
-│   │   ├── StatusBar.tsx        # Indicador de estado
-│   │   └── WorkspaceBar.tsx     # Barra de herramientas
+│   │   ├── ActionRow.jsx        # Botones generar/reset
+│   │   ├── ColorPicker.jsx      # Selector de escala de color
+│   │   ├── DomainControls.jsx   # Controles de rango X/Y
+│   │   ├── EquationInput.jsx    # Input de ecuacion + funciones
+│   │   ├── ExamplesPanel.jsx    # Panel de ejemplos + sheet mobile
+│   │   ├── Footer.jsx           # Barra de atajos de teclado
+│   │   ├── Header.jsx           # Logo y titulo
+│   │   ├── MeshControls.jsx     # Slider de resolucion
+│   │   ├── PlotViewer.jsx       # Grafico 3D Plotly
+│   │   ├── StatusBar.jsx        # Indicador de estado
+│   │   └── WorkspaceBar.jsx     # Barra de herramientas
 │   ├── lib/
-│   │   ├── mathParser.ts        # Parser de ecuaciones
-│   │   └── examples.ts          # Definiciones de ejemplos
+│   │   ├── mathParser.js        # Parser de ecuaciones
+│   │   └── examples.js          # Definiciones de ejemplos
 │   ├── store/
-│   │   └── index.ts             # Zustand store global
-│   ├── App.tsx                  # Layout principal
-│   ├── main.tsx                 # Entry point
+│   │   └── index.js             # Zustand store global
+│   ├── App.jsx                  # Layout principal
+│   ├── main.jsx                 # Entry point
 │   └── index.css                # Estilos globales + Tailwind
-├── rsbuild.config.ts            # Configuracion de Rspack
-├── package.json
-└── tsconfig.json
+├── rsbuild.config.mjs           # Configuracion de Rspack
+└── package.json
 ```
 
 ## Ejemplos incluidos

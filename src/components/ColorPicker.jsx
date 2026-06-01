@@ -1,6 +1,6 @@
-import { useStore, type ColorScale } from "../store";
+import { useStore } from "../store";
 
-const COLORS: { name: ColorScale; gradient: string }[] = [
+const COLORS = [
   { name: "Viridis", gradient: "linear-gradient(90deg, #440154, #21918c, #fde725)" },
   { name: "Plasma", gradient: "linear-gradient(90deg, #0d0887, #cc4778, #f0f921)" },
   { name: "Hot", gradient: "linear-gradient(90deg, #000, #d23b21, #ffffbf)" },

@@ -4,20 +4,18 @@ export function WorkspaceBar() {
   const plotTitle = useStore((s) => s.plotTitle);
 
   const resetCamera = () => {
-    // Plotly camera reset is handled by the Plotly component internally
-    // We emit a custom event or handle it differently
-    const plotDiv = document.querySelector(".js-plotly-plot") as any;
-    if (plotDiv && (window as any).Plotly) {
-      (window as any).Plotly.relayout(plotDiv, {
+    const plotDiv = document.querySelector(".js-plotly-plot");
+    if (plotDiv && window.Plotly) {
+      window.Plotly.relayout(plotDiv, {
         "scene.camera": { eye: { x: 1.5, y: 1.5, z: 1.2 } },
       });
     }
   };
 
   const downloadPng = () => {
-    const plotDiv = document.querySelector(".js-plotly-plot") as any;
-    if (plotDiv && (window as any).Plotly) {
-      (window as any).Plotly.downloadImage(plotDiv, {
+    const plotDiv = document.querySelector(".js-plotly-plot");
+    if (plotDiv && window.Plotly) {
+      window.Plotly.downloadImage(plotDiv, {
         format: "png",
         filename: "superficie-3d",
         width: 1400,

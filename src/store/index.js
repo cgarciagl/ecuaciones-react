@@ -2,76 +2,12 @@ import { create } from "zustand";
 import { EXAMPLES } from "../lib/examples";
 import { buildMathFunction, linspace, generateZ } from "../lib/mathParser";
 
-export type ColorScale =
-  | "Viridis"
-  | "Plasma"
-  | "Hot"
-  | "Electric"
-  | "Earth"
-  | "Greys";
+const DEFAULT_RANGE = [-3.14, 3.14];
 
-interface PlotData {
-  x: number[];
-  y: number[];
-  z: (number | null)[][];
-}
-
-interface Status {
-  type: "ok" | "error";
-  message: string;
-  timing: string;
-}
-
-interface AppState {
-  // Equation
-  equation: string;
-  setEquation: (eq: string) => void;
-
-  // Domain
-  xMin: number;
-  xMax: number;
-  yMin: number;
-  yMax: number;
-  setDomain: (xMin: number, xMax: number, yMin: number, yMax: number) => void;
-  setDomainPreset: (preset: string) => void;
-
-  // Resolution
-  resolution: number;
-  setResolution: (r: number) => void;
-
-  // Color
-  colorScale: ColorScale;
-  setColorScale: (c: ColorScale) => void;
-
-  // Plot data
-  plotData: PlotData | null;
-  plotTitle: string;
-
-  // Status
-  status: Status;
-  error: string | null;
-  clearError: () => void;
-
-  // Mobile examples sheet
-  examplesOpen: boolean;
-  toggleExamples: () => void;
-  closeExamples: () => void;
-
-  // Actions
-  renderSurface: () => void;
-  loadExample: (index: number) => void;
-  resetDefaults: () => void;
-  insertAtCursor: (text: string) => void;
-}
-
-const DEFAULT_RANGE = [-3.14, 3.14] as const;
-
-export const useStore = create<AppState>((set, get) => ({
-  // Equation
+export const useStore = create((set, get) => ({
   equation: EXAMPLES[0].eq,
   setEquation: (equation) => set({ equation }),
 
-  // Domain
   xMin: DEFAULT_RANGE[0],
   xMax: DEFAULT_RANGE[1],
   yMin: DEFAULT_RANGE[0],
@@ -90,32 +26,26 @@ export const useStore = create<AppState>((set, get) => ({
     }
   },
 
-  // Resolution
   resolution: 80,
   setResolution: (resolution) => set({ resolution }),
 
-  // Color
   colorScale: "Viridis",
   setColorScale: (colorScale) => {
     set({ colorScale });
     get().renderSurface();
   },
 
-  // Plot data
   plotData: null,
   plotTitle: EXAMPLES[0].eq,
 
-  // Status
   status: { type: "ok", message: "Listo para generar", timing: "" },
   error: null,
   clearError: () => set({ error: null }),
 
-  // Examples
   examplesOpen: false,
   toggleExamples: () => set((s) => ({ examplesOpen: !s.examplesOpen })),
   closeExamples: () => set({ examplesOpen: false }),
 
-  // Actions
   renderSurface: () => {
     const { equation, xMin, xMax, yMin, yMax, resolution } = get();
     const t0 = performance.now();
@@ -131,12 +61,12 @@ export const useStore = create<AppState>((set, get) => ({
       return;
     }
 
-    let fn: (x: number, y: number) => number;
+    let fn;
     try {
       fn = buildMathFunction(expr);
     } catch (err) {
       set({
-        error: (err as Error).message,
+        error: err.message,
         status: { type: "error", message: "Error en la ecuacion", timing: "" },
       });
       return;
@@ -160,12 +90,12 @@ export const useStore = create<AppState>((set, get) => ({
     const xArr = linspace(xMin, xMax, resolution);
     const yArr = linspace(yMin, yMax, resolution);
 
-    let zData: (number | null)[][];
+    let zData;
     try {
       zData = generateZ(fn, xArr, yArr);
     } catch (err) {
       set({
-        error: "Error evaluando: " + (err as Error).message,
+        error: "Error evaluando: " + err.message,
         status: { type: "error", message: "Error en la ecuacion", timing: "" },
       });
       return;
@@ -208,10 +138,5 @@ export const useStore = create<AppState>((set, get) => ({
       colorScale: "Viridis",
     });
     setTimeout(() => get().renderSurface(), 0);
-  },
-
-  insertAtCursor: (text: string) => {
-    // This is handled by the component directly since we need DOM access
-    // The component will call setEquation with the new value
   },
 }));
