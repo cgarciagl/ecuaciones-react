@@ -8,7 +8,7 @@ importers:
 
   .:
     dependencies:
-      plotly.js-basic-dist-min:
+      plotly.js-dist-min:
         specifier: ^2.35.2
         version: 2.35.3
       react:
@@ -1013,8 +1013,8 @@ packages:
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
 
-  plotly.js-basic-dist-min@2.35.3:
-    resolution: {integrity: sha512-ZipAmyME0S5qWec6GDy2dxP+E6Qhi0X6eNwH6gy7m5YMKYSgrDYrc+/3PTPWpJsxcIMF0kqoOruX+SgH2VwOWg==}
+  plotly.js-dist-min@2.35.3:
+    resolution: {integrity: sha512-sz2HLP8gkysLx/BanM2PtJTtZ1PLPwdHwMWNri2YxLBy3IOeuDsVQtlmWa4hoK3j/fi4naaD3uZJqH5ozM3zGg==}
 
   plotly.js@3.6.0:
     resolution: {integrity: sha512-Fu5IaetcuxaeQPULk4wfIik0MnvIsEb5ynOsPAMfhAnjkPOEDFG7eSb/3ZZq1DW5MwYvZFXaTFHpal4U1Q5Yig==}
@@ -2351,7 +2351,7 @@ snapshots:
 
   picocolors@1.1.1: {}
 
-  plotly.js-basic-dist-min@2.35.3: {}
+  plotly.js-dist-min@2.35.3: {}
 
   plotly.js@3.6.0(mapbox-gl@1.13.3):
     dependencies:
