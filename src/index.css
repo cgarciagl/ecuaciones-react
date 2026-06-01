@@ -206,10 +206,16 @@ button:focus-visible {
 .js-plotly-plot .plotly .modebar {
   top: 8px !important;
   right: 8px !important;
+  padding: 4px 5px !important;
   border: 1px solid rgba(255, 255, 255, 0.12) !important;
   border-radius: 10px !important;
   background: rgba(15, 19, 12, 0.55) !important;
   backdrop-filter: blur(10px);
+}
+.js-plotly-plot .plotly .modebar-group {
+  display: flex !important;
+  align-items: center !important;
+  gap: 1px !important;
 }
 .js-plotly-plot .plotly .modebar-btn {
   color: rgba(255, 255, 255, 0.6) !important;
