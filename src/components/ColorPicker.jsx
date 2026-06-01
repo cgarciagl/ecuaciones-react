@@ -14,35 +14,35 @@ export function ColorPicker() {
   const setColorScale = useStore((s) => s.setColorScale);
 
   return (
-    <section className="p-3.5 border border-line rounded-lg bg-white/72">
-      <div className="flex items-start justify-between gap-3 mb-3">
+    <section className="pt-4 pb-4 pl-5 pr-4 border border-line/80 rounded-[14px] bg-white/80 shadow-[0_10px_26px_rgba(20,30,24,0.06)]">
+      <div className="flex items-start justify-between gap-3 mb-3.5">
         <div>
-          <span className="block text-rust-500 font-mono text-[0.62rem] font-bold tracking-[0.18em]">
+          <span className="block text-rust-500 font-mono text-[0.64rem] font-semibold tracking-[0.16em]">
             04
           </span>
-          <h2 className="mt-0.5 text-ink text-[0.95rem] font-extrabold">
+          <h2 className="mt-0.5 text-ink text-[1.07rem] font-extrabold">
             Color
           </h2>
         </div>
-        <span className="text-muted font-mono text-[0.66rem] leading-relaxed">
+        <span className="text-muted font-mono text-[0.68rem] leading-relaxed">
           {colorScale}
         </span>
       </div>
 
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-2 gap-2.5">
         {COLORS.map((c) => (
           <button
             key={c.name}
             type="button"
             onClick={() => setColorScale(c.name)}
-            className={`flex items-center gap-2 min-h-[38px] px-2.5 border-[1.5px] rounded-lg bg-[#fcfffc] text-ink-soft text-[0.76rem] font-extrabold cursor-pointer transition-all hover:-translate-y-px ${
+            className={`flex items-center gap-2.5 min-h-[40px] px-3 border-[1.5px] rounded-xl bg-[#fcfffc] text-ink-soft text-[0.78rem] font-bold cursor-pointer transition-all hover:-translate-y-px ${
               colorScale === c.name
-                ? "border-moss-600 bg-moss-600/8"
+                ? "border-moss-600 bg-moss-600/10 shadow-[0_8px_20px_rgba(47,95,70,0.14)]"
                 : "border-line"
             }`}
           >
             <span
-              className="w-[22px] h-3.5 shrink-0 rounded-sm border border-black/15"
+              className="w-[24px] h-3.5 shrink-0 rounded-[4px] border border-black/15"
               style={{ background: c.gradient }}
             />
             {c.name}

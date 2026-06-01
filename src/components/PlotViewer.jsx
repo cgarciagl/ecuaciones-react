@@ -71,17 +71,18 @@ export function PlotViewer() {
   }, [plotData, colorScale]);
 
   return (
-    <div className="relative flex-1 min-h-[320px] overflow-hidden border border-line rounded-lg shadow-[0_24px_70px_rgba(30,45,35,0.15)]">
+    <div className="relative flex-1 min-h-[320px] overflow-hidden border border-[#2d362a] rounded-[18px] shadow-[0_28px_80px_rgba(15,20,12,0.42)]">
       <div
         className="absolute inset-0 z-0"
         style={{
           background: `
-            radial-gradient(circle at 22% 18%, rgba(216, 164, 65, 0.18), transparent 30%),
-            #14180f
+            radial-gradient(circle at 22% 18%, rgba(216, 164, 65, 0.21), transparent 30%),
+            radial-gradient(circle at 78% 22%, rgba(90, 176, 145, 0.16), transparent 34%),
+            #13180f
           `,
         }}
       />
-      <div className="absolute inset-2.5 z-20 border border-white/12 rounded-[7px] pointer-events-none" />
+      <div className="absolute inset-2.5 z-20 border border-white/12 rounded-[10px] pointer-events-none" />
 
       {plotData ? (
         <Plot
@@ -92,7 +93,7 @@ export function PlotViewer() {
           style={{ position: "absolute", inset: 0, width: "100%", height: "100%", zIndex: 1 }}
         />
       ) : (
-        <div className="absolute inset-0 z-10 flex items-center justify-center text-white/40 text-sm font-medium">
+        <div className="absolute inset-0 z-10 flex items-center justify-center text-white/45 text-[0.96rem] font-medium">
           Presiona "Generar" para visualizar
         </div>
       )}

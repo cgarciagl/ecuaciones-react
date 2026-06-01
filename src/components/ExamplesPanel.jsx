@@ -5,33 +5,33 @@ export function ExamplesPanel() {
   const loadExample = useStore((s) => s.loadExample);
 
   return (
-    <section className="p-3.5 border border-line rounded-lg bg-white/72">
-      <div className="flex items-start justify-between gap-3 mb-3">
+    <section className="pt-4 pb-4 pl-5 pr-4 border border-line/80 rounded-[14px] bg-white/80 shadow-[0_10px_26px_rgba(20,30,24,0.06)]">
+      <div className="flex items-start justify-between gap-3 mb-3.5">
         <div>
-          <span className="block text-rust-500 font-mono text-[0.62rem] font-bold tracking-[0.18em]">
+          <span className="block text-rust-500 font-mono text-[0.64rem] font-semibold tracking-[0.16em]">
             05
           </span>
-          <h2 className="mt-0.5 text-ink text-[0.95rem] font-extrabold">
+          <h2 className="mt-0.5 text-ink text-[1.07rem] font-extrabold">
             Ejemplos
           </h2>
         </div>
       </div>
 
-      <div className="grid gap-1.5">
+      <div className="grid gap-2">
         {EXAMPLES.map((ex, i) => (
           <button
             key={i}
             type="button"
             onClick={() => loadExample(i)}
-            className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-2.5 gap-y-0.5 w-full min-h-[54px] p-2.5 border border-line rounded-lg bg-[#fcfffc]/76 text-ink text-left cursor-pointer transition-all hover:border-rust-500 hover:bg-rust-500/8 hover:translate-x-0.5"
+            className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-2.5 gap-y-0.5 w-full min-h-[56px] p-3 border border-line rounded-xl bg-[#fcfffc]/82 text-ink text-left cursor-pointer transition-all hover:border-rust-500 hover:bg-rust-500/8 hover:translate-x-0.5"
           >
-            <span className="row-span-2 w-7 h-7 grid place-items-center rounded-full bg-[#dfe9e1] text-base">
+            <span className="row-span-2 w-[1.875rem] h-[1.875rem] grid place-items-center rounded-full bg-[#dfe9e1] text-base">
               {ex.emoji}
             </span>
-            <span className="min-w-0 text-[0.82rem] font-extrabold whitespace-nowrap overflow-hidden text-ellipsis">
+            <span className="min-w-0 text-[0.86rem] font-bold whitespace-nowrap overflow-hidden text-ellipsis">
               {ex.name}
             </span>
-            <span className="min-w-0 text-muted font-mono text-[0.67rem] whitespace-nowrap overflow-hidden text-ellipsis">
+            <span className="min-w-0 text-muted font-mono text-[0.7rem] whitespace-nowrap overflow-hidden text-ellipsis">
               {ex.eq}
             </span>
           </button>
@@ -61,7 +61,7 @@ export function ExamplesSheet() {
         }`}
       />
       <div
-        className={`absolute right-2.5 bottom-2.5 left-2.5 flex flex-col max-h-[min(74vh,620px)] p-3 border border-line rounded-t-[18px] rounded-b-[10px] bg-panel/98 shadow-[0_-22px_60px_rgba(17,20,15,0.22)] transition-transform duration-200 ease-out ${
+        className={`absolute right-2.5 bottom-2.5 left-2.5 flex flex-col max-h-[min(74vh,620px)] p-3 border border-line rounded-t-[20px] rounded-b-[12px] bg-panel/98 shadow-[0_-22px_60px_rgba(17,20,15,0.22)] transition-transform duration-200 ease-out ${
           examplesOpen ? "translate-y-0" : "translate-y-[calc(100%+18px)]"
         }`}
       >
@@ -69,15 +69,15 @@ export function ExamplesSheet() {
 
         <div className="flex items-center justify-between gap-3 mb-2.5">
           <div>
-            <span className="text-muted text-[0.62rem] font-bold tracking-[0.18em] uppercase">
+            <span className="text-muted text-[0.66rem] font-bold tracking-[0.16em] uppercase">
               Biblioteca
             </span>
-            <h2 className="mt-0.5 text-ink text-base font-black">Ejemplos</h2>
+            <h2 className="mt-0.5 text-ink text-[1.08rem] font-extrabold">Ejemplos</h2>
           </div>
           <button
             type="button"
             onClick={closeExamples}
-            className="min-h-[34px] px-3 border border-line rounded-full bg-white text-ink-soft text-[0.76rem] font-extrabold cursor-pointer"
+            className="min-h-[34px] px-3 border border-line rounded-full bg-white text-ink-soft text-[0.78rem] font-bold cursor-pointer"
           >
             Cerrar
           </button>
@@ -90,15 +90,15 @@ export function ExamplesSheet() {
                 key={i}
                 type="button"
                 onClick={() => loadExample(i)}
-                className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-2.5 gap-y-0.5 w-full min-h-[54px] p-2.5 border border-line rounded-xl bg-white/76 text-ink text-left cursor-pointer transition-all hover:border-rust-500 hover:bg-rust-500/8 hover:translate-x-0.5"
+                className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-2.5 gap-y-0.5 w-full min-h-[56px] p-3 border border-line rounded-xl bg-white/80 text-ink text-left cursor-pointer transition-all hover:border-rust-500 hover:bg-rust-500/8 hover:translate-x-0.5"
               >
-                <span className="row-span-2 w-7 h-7 grid place-items-center rounded-full bg-[#dfe9e1] text-base">
+                <span className="row-span-2 w-[1.875rem] h-[1.875rem] grid place-items-center rounded-full bg-[#dfe9e1] text-base">
                   {ex.emoji}
                 </span>
-                <span className="min-w-0 text-[0.82rem] font-extrabold whitespace-nowrap overflow-hidden text-ellipsis">
+                <span className="min-w-0 text-[0.86rem] font-bold whitespace-nowrap overflow-hidden text-ellipsis">
                   {ex.name}
                 </span>
-                <span className="min-w-0 text-muted font-mono text-[0.67rem] whitespace-nowrap overflow-hidden text-ellipsis">
+                <span className="min-w-0 text-muted font-mono text-[0.7rem] whitespace-nowrap overflow-hidden text-ellipsis">
                   {ex.eq}
                 </span>
               </button>
@@ -117,7 +117,7 @@ export function FloatingExamplesButton() {
     <button
       type="button"
       onClick={toggleExamples}
-      className="fixed right-3.5 bottom-3.5 z-20 min-h-[54px] px-5 border border-white/28 rounded-full bg-moss-600 text-white shadow-[0_18px_38px_rgba(31,64,50,0.36)] cursor-pointer text-[0.84rem] font-black tracking-[0.03em] uppercase hidden max-[980px]:block"
+      className="fixed right-3.5 bottom-3.5 z-20 min-h-[54px] px-5 border border-white/28 rounded-full bg-[linear-gradient(145deg,#2f8f66,#2f5f46)] text-white shadow-[0_18px_38px_rgba(31,64,50,0.36)] cursor-pointer text-[0.84rem] font-extrabold tracking-[0.03em] uppercase hidden max-[980px]:block"
     >
       Ejemplos
     </button>

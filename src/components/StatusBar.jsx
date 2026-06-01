@@ -4,7 +4,7 @@ export function StatusBar() {
   const status = useStore((s) => s.status);
 
   return (
-    <div className="flex items-center gap-2.5 min-h-[42px] px-3.5 border border-line rounded-lg bg-white/78 text-ink-soft font-mono text-[0.72rem]">
+    <div className="flex items-center gap-2.5 min-h-[45px] px-4 border border-line/80 rounded-[14px] bg-white/82 text-ink-soft font-mono text-[0.76rem] shadow-[0_10px_30px_rgba(20,30,24,0.08)]">
       <span
         className={`w-2 h-2 shrink-0 rounded-full ${
           status.type === "error"
@@ -16,7 +16,7 @@ export function StatusBar() {
         {status.message}
       </span>
       {status.timing && (
-        <span className="text-rust-500 font-extrabold">{status.timing}</span>
+        <span className="text-rust-500 font-bold">{status.timing}</span>
       )}
     </div>
   );

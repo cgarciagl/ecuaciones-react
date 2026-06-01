@@ -7,27 +7,27 @@ export function MeshControls() {
   const pointCount = (resolution * resolution).toLocaleString("es-MX");
 
   return (
-    <section className="p-3.5 border border-line rounded-lg bg-white/72">
-      <div className="flex items-start justify-between gap-3 mb-3">
+    <section className="pt-4 pb-4 pl-5 pr-4 border border-line/80 rounded-[14px] bg-white/80 shadow-[0_10px_26px_rgba(20,30,24,0.06)]">
+      <div className="flex items-start justify-between gap-3 mb-3.5">
         <div>
-          <span className="block text-rust-500 font-mono text-[0.62rem] font-bold tracking-[0.18em]">
+          <span className="block text-rust-500 font-mono text-[0.64rem] font-semibold tracking-[0.16em]">
             03
           </span>
-          <h2 className="mt-0.5 text-ink text-[0.95rem] font-extrabold">
+          <h2 className="mt-0.5 text-ink text-[1.07rem] font-extrabold">
             Malla
           </h2>
         </div>
-        <span className="text-muted font-mono text-[0.66rem] leading-relaxed">
+        <span className="text-muted font-mono text-[0.68rem] leading-relaxed">
           {pointCount} puntos
         </span>
       </div>
 
-      <div className="grid gap-2.5">
+      <div className="grid gap-3">
         <div className="flex items-center justify-between gap-3">
-          <label className="text-muted text-[0.68rem] font-extrabold tracking-[0.09em] uppercase">
+          <label className="text-muted text-[0.72rem] font-bold tracking-[0.08em] uppercase">
             Resolucion
           </label>
-          <span className="min-w-[42px] px-2 py-1 rounded-full bg-ochre-100 text-ochre-700 font-mono text-[0.72rem] font-extrabold text-center">
+          <span className="min-w-[48px] px-2.5 py-1 rounded-full bg-ochre-100 text-ochre-700 font-mono text-[0.74rem] font-bold text-center">
             {resolution}
           </span>
         </div>
