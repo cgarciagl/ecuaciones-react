@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { useStore } from "../store";
 
 const PRESETS = [
@@ -21,14 +22,23 @@ export function DomainControls() {
   const setDomain = useStore((s) => s.setDomain);
   const setDomainPreset = useStore((s) => s.setDomainPreset);
   const renderSurface = useStore((s) => s.renderSurface);
+  const changedRef = useRef(false);
 
   const values = { xMin, xMax, yMin, yMax };
 
   const handleChange = (field, value) => {
     const num = parseFloat(value);
     if (isNaN(num)) return;
+    changedRef.current = true;
     const newState = { xMin, xMax, yMin, yMax, [field]: num };
     setDomain(newState.xMin, newState.xMax, newState.yMin, newState.yMax);
+  };
+
+  const handleBlur = () => {
+    if (changedRef.current) {
+      changedRef.current = false;
+      renderSurface();
+    }
   };
 
   return (
@@ -58,7 +68,7 @@ export function DomainControls() {
               value={values[field]}
               step={0.01}
               onChange={(e) => handleChange(field, e.target.value)}
-              onBlur={() => renderSurface()}
+              onBlur={handleBlur}
               className="w-full min-h-[42px] py-2 px-2.5 border border-line rounded-lg outline-none bg-[#fcfffc] text-ink font-mono text-[0.82rem] transition-all focus:border-moss-600 focus:shadow-[0_0_0_3px_rgba(47,95,70,0.12)]"
             />
           </div>

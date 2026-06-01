@@ -24,6 +24,9 @@ export function ColorPicker() {
             Color
           </h2>
         </div>
+        <span className="text-muted font-mono text-[0.66rem] leading-relaxed">
+          {colorScale}
+        </span>
       </div>
 
       <div className="grid grid-cols-2 gap-2">

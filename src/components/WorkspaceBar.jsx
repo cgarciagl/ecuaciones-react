@@ -1,21 +1,23 @@
+import { useCallback } from "react";
 import { useStore } from "../store";
+import Plotly from "plotly.js-dist-min";
 
 export function WorkspaceBar() {
   const plotTitle = useStore((s) => s.plotTitle);
 
-  const resetCamera = () => {
+  const resetCamera = useCallback(() => {
     const plotDiv = document.querySelector(".js-plotly-plot");
-    if (plotDiv && window.Plotly) {
-      window.Plotly.relayout(plotDiv, {
+    if (plotDiv) {
+      Plotly.relayout(plotDiv, {
         "scene.camera": { eye: { x: 1.5, y: 1.5, z: 1.2 } },
       });
     }
-  };
+  }, []);
 
-  const downloadPng = () => {
+  const downloadPng = useCallback(() => {
     const plotDiv = document.querySelector(".js-plotly-plot");
-    if (plotDiv && window.Plotly) {
-      window.Plotly.downloadImage(plotDiv, {
+    if (plotDiv) {
+      Plotly.downloadImage(plotDiv, {
         format: "png",
         filename: "superficie-3d",
         width: 1400,
@@ -23,7 +25,7 @@ export function WorkspaceBar() {
         scale: 1,
       });
     }
-  };
+  }, []);
 
   return (
     <div className="flex items-center justify-between gap-3.5 min-h-[72px] px-4 py-3.5 border border-line rounded-lg bg-ink/88 text-white shadow-[0_24px_70px_rgba(30,45,35,0.15)]">
@@ -35,7 +37,7 @@ export function WorkspaceBar() {
           {plotTitle}
         </h2>
       </div>
-      <div className="flex flex-wrap gap-1.5">
+      <div className="flex flex-wrap gap-1.5 shrink-0">
         <button
           type="button"
           onClick={resetCamera}
