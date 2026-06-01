@@ -1,0 +1,154 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --color-moss-50: #f0f9f4;
+  --color-moss-100: #dbf0e3;
+  --color-moss-200: #b9e1ca;
+  --color-moss-300: #8acaa8;
+  --color-moss-400: #57ac82;
+  --color-moss-500: #2f8f66;
+  --color-moss-600: #2f5f46;
+  --color-moss-700: #1f4032;
+  --color-moss-800: #1a3329;
+  --color-moss-900: #152a22;
+
+  --color-rust-50: #fef3ed;
+  --color-rust-100: #fde4d4;
+  --color-rust-200: #f9c5a8;
+  --color-rust-300: #f49d71;
+  --color-rust-400: #ee7038;
+  --color-rust-500: #b85d36;
+  --color-rust-600: #a4431d;
+  --color-rust-700: #87341a;
+  --color-rust-800: #6e2c1c;
+  --color-rust-900: #5b271c;
+
+  --color-ochre-50: #fdf8eb;
+  --color-ochre-100: #f9edca;
+  --color-ochre-200: #f3d891;
+  --color-ochre-300: #edc258;
+  --color-ochre-400: #d8a441;
+  --color-ochre-500: #c78c28;
+  --color-ochre-600: #b06d1e;
+  --color-ochre-700: #93511c;
+  --color-ochre-800: #79411e;
+  --color-ochre-900: #67361e;
+
+  --color-paper: #eef4ef;
+  --color-panel: #f7fbf7;
+  --color-ink: #11140f;
+  --color-ink-soft: #475045;
+  --color-muted: #747c6f;
+  --color-line: #cbd8ce;
+  --color-line-strong: #9fb2a5;
+
+  --color-dark-bg: #14180f;
+  --color-dark-surface: rgba(20, 24, 15, 0.95);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  height: 100vh;
+  font-family: var(--font-sans);
+  background:
+    linear-gradient(120deg, rgba(47, 95, 70, 0.14), transparent 34%),
+    linear-gradient(300deg, rgba(184, 93, 54, 0.09), transparent 38%),
+    var(--color-paper);
+  color: var(--color-ink);
+  overflow: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(17, 20, 15, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17, 20, 15, 0.04) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: linear-gradient(to bottom, #000, transparent 72%);
+  pointer-events: none;
+}
+
+#root {
+  height: 100vh;
+  min-height: 0;
+}
+
+@media (max-width: 980px) {
+  body {
+    height: auto;
+    overflow: auto;
+    background: #eef4ef;
+  }
+  #root {
+    height: auto;
+    min-height: 100vh;
+  }
+}
+
+/* Scrollbar styling */
+.sidebar-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: var(--color-line-strong);
+  background-clip: content-box;
+}
+
+/* Range input styling */
+input[type="range"] {
+  width: 100%;
+  height: 6px;
+  accent-color: var(--color-moss-600);
+  cursor: pointer;
+  border-radius: 999px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--color-line);
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-moss-600);
+  border: 2px solid white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+/* Plotly overrides */
+.js-plotly-plot .plotly .modebar {
+  top: 8px !important;
+  right: 8px !important;
+}
+.js-plotly-plot .plotly .modebar-btn {
+  color: rgba(255,255,255,0.5) !important;
+}
+.js-plotly-plot .plotly .modebar-btn:hover {
+  color: rgba(255,255,255,0.9) !important;
+}
