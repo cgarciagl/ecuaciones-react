@@ -1,9 +1,18 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Plotly from "plotly.js-dist-min";
 import { useStore } from "../store";
 
 export function WorkspaceBar() {
   const plotTitle = useStore((s) => s.plotTitle);
+  const [isFullscreen, setIsFullscreen] = useState(
+    () => document.fullscreenElement !== null
+  );
+
+  useEffect(() => {
+    const handleChange = () => setIsFullscreen(document.fullscreenElement !== null);
+    document.addEventListener("fullscreenchange", handleChange);
+    return () => document.removeEventListener("fullscreenchange", handleChange);
+  }, []);
 
   const resetCamera = useCallback(() => {
     const plotDiv = document.querySelector(".js-plotly-plot");
@@ -26,6 +35,16 @@ export function WorkspaceBar() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         scale: 1,
       } as any);
+    }
+  }, []);
+
+  const toggleFullscreen = useCallback(() => {
+    const plotDiv = document.querySelector(".js-plotly-plot");
+    if (!plotDiv) return;
+    if (document.fullscreenElement) {
+      void document.exitFullscreen();
+    } else {
+      void plotDiv.requestFullscreen();
     }
   }, []);
 
@@ -53,6 +72,13 @@ export function WorkspaceBar() {
           className="w-[88px] min-h-[36px] border border-white/18 rounded-full bg-white/8 text-white font-mono text-[0.76rem] font-semibold cursor-pointer transition-all hover:border-ochre-400 hover:bg-ochre-400/16 hover:-translate-y-px active:translate-y-0"
         >
           PNG
+        </button>
+        <button
+          type="button"
+          onClick={toggleFullscreen}
+          className="w-[88px] min-h-[36px] border border-white/18 rounded-full bg-white/8 text-white font-mono text-[0.76rem] font-semibold cursor-pointer transition-all hover:border-ochre-400 hover:bg-ochre-400/16 hover:-translate-y-px active:translate-y-0"
+        >
+          {isFullscreen ? "Salir" : "Pantalla"}
         </button>
       </div>
     </div>
