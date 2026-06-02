@@ -1,6 +1,14 @@
 import { useCallback, useEffect, useState } from "react";
-import Plotly from "plotly.js-dist-min";
 import { useStore } from "../store";
+import { ECHARTS_CONTAINER_ID } from "./PlotViewer";
+
+type SurfaceAction = { type: "resetCamera" | "downloadPng" };
+
+function dispatchSurfaceAction(detail: SurfaceAction) {
+  window.dispatchEvent(
+    new CustomEvent<SurfaceAction>("echarts-surface:action", { detail })
+  );
+}
 
 export function WorkspaceBar() {
   const plotTitle = useStore((s) => s.plotTitle);
@@ -15,31 +23,15 @@ export function WorkspaceBar() {
   }, []);
 
   const resetCamera = useCallback(() => {
-    const plotDiv = document.querySelector(".js-plotly-plot");
-    if (plotDiv) {
-      Plotly.relayout(plotDiv as Plotly.PlotlyHTMLElement, {
-        "scene.camera": { eye: { x: 1.5, y: 1.5, z: 1.2 } },
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } as any);
-    }
+    dispatchSurfaceAction({ type: "resetCamera" });
   }, []);
 
   const downloadPng = useCallback(() => {
-    const plotDiv = document.querySelector(".js-plotly-plot");
-    if (plotDiv) {
-      Plotly.downloadImage(plotDiv as Plotly.PlotlyHTMLElement, {
-        format: "png",
-        filename: "superficie-3d",
-        width: 1400,
-        height: 1000,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        scale: 1,
-      } as any);
-    }
+    dispatchSurfaceAction({ type: "downloadPng" });
   }, []);
 
   const toggleFullscreen = useCallback(() => {
-    const plotDiv = document.querySelector(".js-plotly-plot");
+    const plotDiv = document.getElementById(ECHARTS_CONTAINER_ID);
     if (!plotDiv) return;
     if (document.fullscreenElement) {
       void document.exitFullscreen();

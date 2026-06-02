@@ -1,59 +1,89 @@
-import { useMemo } from "react";
-import type { Data, Layout, Config } from "plotly.js";
-import createPlotlyComponent from "react-plotly.js/factory";
-import Plotly from "plotly.js-dist-min";
+import { useEffect, useMemo, useRef } from "react";
+import * as echarts from "echarts/core";
+import { Scatter3DChart, SurfaceChart } from "echarts-gl/charts";
+import { Grid3DComponent } from "echarts-gl/components";
+import { TooltipComponent, VisualMapComponent } from "echarts/components";
+import { CanvasRenderer } from "echarts/renderers";
+import type { EChartsType } from "echarts/core";
 import { useStore } from "../store";
-import { buildPlotData } from "../lib/plotData";
+import {
+  buildEChartsOption,
+  INITIAL_VIEW_CONTROL,
+} from "../lib/plotData";
 
-const Plot = createPlotlyComponent(Plotly);
+echarts.use([
+  SurfaceChart,
+  Scatter3DChart,
+  Grid3DComponent,
+  TooltipComponent,
+  VisualMapComponent,
+  CanvasRenderer,
+]);
 
-function axisCfg(label: string, color: string) {
-  return {
-    title: {
-      text: label,
-      font: { color, family: "Inter", size: 12 },
-    },
-    gridcolor: "rgba(246,242,232,0.18)",
-    zerolinecolor: "rgba(246,242,232,0.36)",
-    tickfont: {
-      color: "rgba(246,242,232,0.58)",
-      family: "JetBrains Mono",
-      size: 9,
-    },
-    backgroundcolor: "rgba(0,0,0,0)",
-  };
-}
-
-const LAYOUT: Partial<Layout> = {
-  scene: {
-    xaxis: axisCfg("X", "#8ed1c6"),
-    yaxis: axisCfg("Y", "#f1a37d"),
-    zaxis: axisCfg("Z", "#f0c766"),
-    bgcolor: "rgba(20,24,15,1)",
-    camera: { eye: { x: 1.5, y: 1.5, z: 1.2 } },
-  },
-  paper_bgcolor: "rgba(0,0,0,0)",
-  margin: { l: 0, r: 0, t: 10, b: 10 },
-  font: { family: "Inter" },
-};
-
-const CONFIG: Partial<Config> = {
-  responsive: true,
-  displayModeBar: true,
-  displaylogo: false,
-};
+export const ECHARTS_CONTAINER_ID = "echarts-surface";
 
 export function PlotViewer() {
   const plotData = useStore((s) => s.plotData);
   const colorScale = useStore((s) => s.colorScale);
   const surfaceMode = useStore((s) => s.surfaceMode);
 
-  const data = useMemo<Data[]>(
-    () => (plotData ? buildPlotData(plotData, colorScale, surfaceMode) : []),
+  const containerRef = useRef<HTMLDivElement>(null);
+  const chartRef = useRef<EChartsType | null>(null);
+
+  const option = useMemo(
+    () => (plotData ? buildEChartsOption(plotData, colorScale, surfaceMode) : null),
     [plotData, colorScale, surfaceMode]
   );
 
-  const revision = useMemo(() => Math.random(), [data]);
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    const chart = echarts.init(container, undefined, { renderer: "canvas" });
+    chartRef.current = chart;
+    chart.resize();
+    const ro = new ResizeObserver(() => chart.resize());
+    ro.observe(container);
+    return () => {
+      ro.disconnect();
+      chart.dispose();
+      chartRef.current = null;
+    };
+  }, []);
+
+  useEffect(() => {
+    const chart = chartRef.current;
+    if (!chart || !option) return;
+    chart.setOption(option, true);
+    chart.resize();
+  }, [option]);
+
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent).detail as
+        | { type: "resetCamera" | "downloadPng" }
+        | undefined;
+      const chart = chartRef.current;
+      if (!chart) return;
+      if (detail?.type === "resetCamera") {
+        chart.setOption(
+          { grid3D: { viewControl: { ...INITIAL_VIEW_CONTROL } } },
+          false
+        );
+      } else if (detail?.type === "downloadPng") {
+        const url = chart.getDataURL({
+          type: "png",
+          pixelRatio: 2,
+          backgroundColor: "#13180f",
+        });
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "superficie-3d.png";
+        a.click();
+      }
+    };
+    window.addEventListener("echarts-surface:action", handler);
+    return () => window.removeEventListener("echarts-surface:action", handler);
+  }, []);
 
   return (
     <div className="relative flex-1 min-h-[320px] overflow-hidden border border-[#2d362a] rounded-[18px] shadow-[0_28px_80px_rgba(15,20,12,0.42)]">
@@ -69,16 +99,13 @@ export function PlotViewer() {
       />
       <div className="absolute inset-2.5 z-20 border border-white/12 rounded-[10px] pointer-events-none" />
 
-      {plotData ? (
-        <Plot
-          data={data}
-          layout={LAYOUT}
-          config={CONFIG}
-          revision={revision}
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", zIndex: 1 }}
-        />
-      ) : (
-        <div className="absolute inset-0 z-10 flex items-center justify-center text-white/45 text-[0.96rem] font-medium">
+      <div
+        id={ECHARTS_CONTAINER_ID}
+        ref={containerRef}
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", zIndex: 1 }}
+      />
+      {!plotData && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center text-white/45 text-[0.96rem] font-medium pointer-events-none">
           Presiona "Generar" para visualizar
         </div>
       )}

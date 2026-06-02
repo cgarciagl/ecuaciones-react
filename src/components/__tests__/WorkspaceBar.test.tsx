@@ -77,7 +77,7 @@ describe("WorkspaceBar - fullscreen button", () => {
 
   it("calls requestFullscreen on the plot div when not in fullscreen", () => {
     const plotDiv = document.createElement("div");
-    plotDiv.className = "js-plotly-plot";
+    plotDiv.id = "echarts-surface";
     document.body.appendChild(plotDiv);
 
     render(<WorkspaceBar />);
@@ -91,7 +91,7 @@ describe("WorkspaceBar - fullscreen button", () => {
 
   it("calls exitFullscreen when already in fullscreen", () => {
     const plotDiv = document.createElement("div");
-    plotDiv.className = "js-plotly-plot";
+    plotDiv.id = "echarts-surface";
     document.body.appendChild(plotDiv);
     Object.defineProperty(document, "fullscreenElement", {
       configurable: true,
