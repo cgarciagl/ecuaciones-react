@@ -82,6 +82,16 @@ pnpm build
 pnpm preview
 ```
 
+### Tests
+
+```bash
+pnpm test          # corre la suite una vez
+pnpm test:watch    # modo watch
+pnpm typecheck     # TypeScript sin emitir
+```
+
+La suite usa [Vitest](https://vitest.dev/) + [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) sobre `happy-dom`. Cubre el parser matematico, el store de Zustand y los componentes de UI.
+
 ## Estructura del proyecto
 
 ```
