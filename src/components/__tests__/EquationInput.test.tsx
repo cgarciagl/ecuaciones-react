@@ -3,10 +3,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { EquationInput } from "../EquationInput";
 import { useStore } from "../../store";
 import { EXAMPLES } from "../../lib/examples";
-
-function resetStore() {
-  useStore.setState(useStore.getInitialState(), true);
-}
+import { resetStore } from "../../test/storeHelpers";
 
 describe("EquationInput", () => {
   beforeEach(resetStore);

@@ -4,10 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { ActionRow } from "../ActionRow";
 import { useStore } from "../../store";
 import { EXAMPLES } from "../../lib/examples";
-
-function resetStore() {
-  useStore.setState(useStore.getInitialState(), true);
-}
+import { resetStore } from "../../test/storeHelpers";
 
 describe("ActionRow", () => {
   beforeEach(resetStore);

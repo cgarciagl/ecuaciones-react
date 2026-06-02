@@ -2,10 +2,7 @@ import { describe, it, expect, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { StatusBar } from "../StatusBar";
 import { useStore } from "../../store";
-
-function resetStore() {
-  useStore.setState(useStore.getInitialState(), true);
-}
+import { resetStore } from "../../test/storeHelpers";
 
 describe("StatusBar", () => {
   beforeEach(resetStore);

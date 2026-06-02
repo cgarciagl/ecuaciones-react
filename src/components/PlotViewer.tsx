@@ -3,6 +3,7 @@ import type { Data, Layout, Config } from "plotly.js";
 import createPlotlyComponent from "react-plotly.js/factory";
 import Plotly from "plotly.js-dist-min";
 import { useStore } from "../store";
+import { buildPlotData } from "../lib/plotData";
 
 const Plot = createPlotlyComponent(Plotly);
 
@@ -47,93 +48,10 @@ export function PlotViewer() {
   const colorScale = useStore((s) => s.colorScale);
   const surfaceMode = useStore((s) => s.surfaceMode);
 
-  const data = useMemo<Data[]>(() => {
-    if (!plotData) return [];
-    const { x, y, z } = plotData;
-    const hoverTpl = "x: %{x:.2f}<br>y: %{y:.2f}<br>z: %{z:.4f}<extra></extra>";
-
-    if (surfaceMode === "points") {
-      const xp: number[] = [];
-      const yp: number[] = [];
-      const zp: (number | null)[] = [];
-      for (let i = 0; i < y.length; i++) {
-        for (let j = 0; j < x.length; j++) {
-          xp.push(x[j]);
-          yp.push(y[i]);
-          zp.push(z[i][j]);
-        }
-      }
-      return [
-        {
-          type: "scatter3d",
-          mode: "markers",
-          x: xp,
-          y: yp,
-          z: zp,
-          marker: {
-            size: 2,
-            color: zp as number[],
-            colorscale: colorScale,
-            showscale: false,
-          },
-          hovertemplate: hoverTpl,
-        },
-      ];
-    }
-
-    if (surfaceMode === "wireframe") {
-      const traces: Data[] = [];
-      for (let i = 0; i < y.length; i++) {
-        traces.push({
-          type: "scatter3d",
-          mode: "lines",
-          x: x,
-          y: Array<number>(x.length).fill(y[i]),
-          z: z[i] as number[],
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          line: { width: 1.5, color: z[i] as number[], colorscale: colorScale } as any,
-          hoverinfo: "skip",
-          showlegend: false,
-        });
-      }
-      for (let j = 0; j < x.length; j++) {
-        const col = z.map((row) => row[j]) as number[];
-        traces.push({
-          type: "scatter3d",
-          mode: "lines",
-          x: Array<number>(y.length).fill(x[j]),
-          y: y,
-          z: col,
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          line: { width: 1.5, color: col, colorscale: colorScale } as any,
-          hoverinfo: "skip",
-          showlegend: false,
-        });
-      }
-      return traces;
-    }
-
-    return [
-      {
-        type: "surface",
-        x,
-        y,
-        z: z as number[][],
-        colorscale: colorScale,
-        contours: {
-          z: {
-            show: true,
-            usecolormap: true,
-            highlightcolor: "#fff",
-            project: { z: false },
-          },
-        },
-        lighting: { ambient: 0.6, diffuse: 0.7, specular: 0.3, roughness: 0.4 },
-        hovertemplate: hoverTpl,
-        showscale: false,
-      } as Data,
-    ];
-  }, [plotData, colorScale, surfaceMode]);
+  const data = useMemo<Data[]>(
+    () => (plotData ? buildPlotData(plotData, colorScale, surfaceMode) : []),
+    [plotData, colorScale, surfaceMode]
+  );
 
   return (
     <div className="relative flex-1 min-h-[320px] overflow-hidden border border-[#2d362a] rounded-[18px] shadow-[0_28px_80px_rgba(15,20,12,0.42)]">

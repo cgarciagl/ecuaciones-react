@@ -3,10 +3,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { DomainControls } from "../DomainControls";
 import { useStore } from "../../store";
-
-function resetStore() {
-  useStore.setState(useStore.getInitialState(), true);
-}
+import { resetStore } from "../../test/storeHelpers";
 
 describe("DomainControls", () => {
   beforeEach(resetStore);

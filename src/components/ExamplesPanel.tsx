@@ -1,5 +1,6 @@
 import { useStore } from "../store";
 import { EXAMPLES } from "../lib/examples";
+import { ExampleButton } from "./ExampleButton";
 
 export function ExamplesPanel() {
   const loadExample = useStore((s) => s.loadExample);
@@ -19,22 +20,7 @@ export function ExamplesPanel() {
 
       <div className="grid gap-2">
         {EXAMPLES.map((ex, i) => (
-          <button
-            key={i}
-            type="button"
-            onClick={() => loadExample(i)}
-            className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-2.5 gap-y-0.5 w-full min-h-[56px] p-3 border border-line rounded-xl bg-[#fcfffc]/82 text-ink text-left cursor-pointer transition-all hover:border-rust-500 hover:bg-rust-500/8 hover:translate-x-0.5"
-          >
-            <span className="row-span-2 w-[1.875rem] h-[1.875rem] grid place-items-center rounded-full bg-[#dfe9e1] text-base">
-              {ex.emoji}
-            </span>
-            <span className="min-w-0 text-[0.86rem] font-bold whitespace-nowrap overflow-hidden text-ellipsis">
-              {ex.name}
-            </span>
-            <span className="min-w-0 text-muted font-mono text-[0.7rem] whitespace-nowrap overflow-hidden text-ellipsis">
-              {ex.eq}
-            </span>
-          </button>
+          <ExampleButton key={i} example={ex} index={i} onSelect={loadExample} />
         ))}
       </div>
     </section>
@@ -86,22 +72,13 @@ export function ExamplesSheet() {
         <div className="overflow-y-auto pr-0.5">
           <div className="grid gap-1.5">
             {EXAMPLES.map((ex, i) => (
-              <button
+              <ExampleButton
                 key={i}
-                type="button"
-                onClick={() => loadExample(i)}
-                className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-2.5 gap-y-0.5 w-full min-h-[56px] p-3 border border-line rounded-xl bg-white/80 text-ink text-left cursor-pointer transition-all hover:border-rust-500 hover:bg-rust-500/8 hover:translate-x-0.5"
-              >
-                <span className="row-span-2 w-[1.875rem] h-[1.875rem] grid place-items-center rounded-full bg-[#dfe9e1] text-base">
-                  {ex.emoji}
-                </span>
-                <span className="min-w-0 text-[0.86rem] font-bold whitespace-nowrap overflow-hidden text-ellipsis">
-                  {ex.name}
-                </span>
-                <span className="min-w-0 text-muted font-mono text-[0.7rem] whitespace-nowrap overflow-hidden text-ellipsis">
-                  {ex.eq}
-                </span>
-              </button>
+                example={ex}
+                index={i}
+                onSelect={loadExample}
+                variant="sheet"
+              />
             ))}
           </div>
         </div>

@@ -1,14 +1,9 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { useStore, type ColorScale, type SurfaceMode } from "../index";
 import { EXAMPLES } from "../../lib/examples";
+import { resetStore, getStoreState } from "../../test/storeHelpers";
 
-function resetStore() {
-  useStore.setState(useStore.getInitialState(), true);
-}
-
-function getState() {
-  return useStore.getState();
-}
+const getState = getStoreState;
 
 describe("useStore - initial state", () => {
   beforeEach(resetStore);

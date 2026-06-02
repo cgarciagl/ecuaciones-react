@@ -3,10 +3,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ColorPicker } from "../ColorPicker";
 import { useStore } from "../../store";
-
-function resetStore() {
-  useStore.setState(useStore.getInitialState(), true);
-}
+import { resetStore } from "../../test/storeHelpers";
 
 const COLORS = ["Viridis", "Plasma", "Hot", "Electric", "Earth", "Greys"];
 
