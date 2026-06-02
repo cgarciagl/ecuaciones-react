@@ -19,8 +19,8 @@ describe("useStore - initial state", () => {
     expect(getState().yMax).toBe(3.14);
   });
 
-  it("starts with resolution 80, Viridis color and surface mode", () => {
-    expect(getState().resolution).toBe(80);
+  it("starts with resolution 60, Viridis color and surface mode", () => {
+    expect(getState().resolution).toBe(60);
     expect(getState().colorScale).toBe("Viridis");
     expect(getState().surfaceMode).toBe("surface");
   });
@@ -207,7 +207,7 @@ describe("useStore - loadExample and resetDefaults", () => {
     getState().resetDefaults();
     const s = getState();
     expect(s.equation).toBe(EXAMPLES[0].eq);
-    expect(s.resolution).toBe(80);
+    expect(s.resolution).toBe(60);
     expect(s.colorScale).toBe("Viridis");
     expect(s.surfaceMode).toBe("surface");
     expect(s.xMin).toBe(-3.14);

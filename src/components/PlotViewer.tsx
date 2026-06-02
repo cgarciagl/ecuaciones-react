@@ -53,6 +53,8 @@ export function PlotViewer() {
     [plotData, colorScale, surfaceMode]
   );
 
+  const revision = useMemo(() => Math.random(), [data]);
+
   return (
     <div className="relative flex-1 min-h-[320px] overflow-hidden border border-[#2d362a] rounded-[18px] shadow-[0_28px_80px_rgba(15,20,12,0.42)]">
       <div
@@ -72,7 +74,7 @@ export function PlotViewer() {
           data={data}
           layout={LAYOUT}
           config={CONFIG}
-          useResizeHandler
+          revision={revision}
           style={{ position: "absolute", inset: 0, width: "100%", height: "100%", zIndex: 1 }}
         />
       ) : (

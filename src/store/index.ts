@@ -87,7 +87,7 @@ export const useStore = create<AppState>()((set, get) => ({
     }
   },
 
-  resolution: 80,
+  resolution: 60,
   setResolution: (resolution) => {
     set({ resolution });
     get().renderSurface();
@@ -206,7 +206,7 @@ export const useStore = create<AppState>()((set, get) => ({
       xMax: DEFAULT_RANGE[1],
       yMin: DEFAULT_RANGE[0],
       yMax: DEFAULT_RANGE[1],
-      resolution: 80,
+      resolution: 60,
       colorScale: "Viridis",
       surfaceMode: "surface",
     });

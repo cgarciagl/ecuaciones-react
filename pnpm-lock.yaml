@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       plotly.js-dist-min:
-        specifier: ^2.35.2
-        version: 2.35.3
+        specifier: ^3.6.0
+        version: 3.6.0
       react:
         specifier: ^19.1.0
         version: 19.2.7
@@ -1552,8 +1552,8 @@ packages:
     resolution: {integrity: sha512-QP88BAKvMam/3NxH6vj2o21R6MjxZUAd6nlwAS/pnGvN9IVLocLHxGYIzFhg6fUQ+5th6P4dv4eW9jX3DSIj7A==}
     engines: {node: '>=12'}
 
-  plotly.js-dist-min@2.35.3:
-    resolution: {integrity: sha512-sz2HLP8gkysLx/BanM2PtJTtZ1PLPwdHwMWNri2YxLBy3IOeuDsVQtlmWa4hoK3j/fi4naaD3uZJqH5ozM3zGg==}
+  plotly.js-dist-min@3.6.0:
+    resolution: {integrity: sha512-VR9jO2YdcEwbzVwtRyPE0eAieXFv1x5q6M9nnIgUS8FggahPrjiID6kzpnTYABwLX0gZkgEc0zxS6gQgVmgHzw==}
 
   plotly.js@3.6.0:
     resolution: {integrity: sha512-Fu5IaetcuxaeQPULk4wfIik0MnvIsEb5ynOsPAMfhAnjkPOEDFG7eSb/3ZZq1DW5MwYvZFXaTFHpal4U1Q5Yig==}
@@ -3432,7 +3432,7 @@ snapshots:
 
   picomatch@4.0.4: {}
 
-  plotly.js-dist-min@2.35.3: {}
+  plotly.js-dist-min@3.6.0: {}
 
   plotly.js@3.6.0(mapbox-gl@1.13.3):
     dependencies:

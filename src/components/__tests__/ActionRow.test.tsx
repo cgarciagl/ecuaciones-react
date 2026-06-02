@@ -35,7 +35,7 @@ describe("ActionRow", () => {
     await user.click(screen.getByRole("button", { name: /Reset/i }));
     const s = useStore.getState();
     expect(s.equation).toBe(EXAMPLES[0].eq);
-    expect(s.resolution).toBe(80);
+    expect(s.resolution).toBe(60);
     expect(s.colorScale).toBe("Viridis");
     expect(s.surfaceMode).toBe("surface");
   });
