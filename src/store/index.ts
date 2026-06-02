@@ -1,10 +1,71 @@
 import { create } from "zustand";
 import { EXAMPLES } from "../lib/examples";
-import { buildMathFunction, linspace, generateZ } from "../lib/mathParser";
+import {
+  buildMathFunction,
+  linspace,
+  generateZ,
+  type ZMatrix,
+} from "../lib/mathParser";
 
-const DEFAULT_RANGE = [-3.14, 3.14];
+const DEFAULT_RANGE: [number, number] = [-3.14, 3.14];
 
-export const useStore = create((set, get) => ({
+export type ColorScale =
+  | "Viridis"
+  | "Plasma"
+  | "Hot"
+  | "Electric"
+  | "Earth"
+  | "Greys";
+
+export type SurfaceMode = "surface" | "wireframe" | "points";
+
+export type Status =
+  | { type: "ok"; message: string; timing: string }
+  | { type: "error"; message: string; timing: string };
+
+export type PlotData = {
+  x: number[];
+  y: number[];
+  z: ZMatrix;
+};
+
+export type AppState = {
+  equation: string;
+  setEquation: (equation: string) => void;
+
+  xMin: number;
+  xMax: number;
+  yMin: number;
+  yMax: number;
+  setDomain: (xMin: number, xMax: number, yMin: number, yMax: number) => void;
+  setDomainPreset: (preset: string) => void;
+
+  resolution: number;
+  setResolution: (resolution: number) => void;
+
+  colorScale: ColorScale;
+  setColorScale: (colorScale: ColorScale) => void;
+
+  surfaceMode: SurfaceMode;
+  setSurfaceMode: (surfaceMode: SurfaceMode) => void;
+
+  plotData: PlotData | null;
+  plotTitle: string;
+
+  status: Status;
+  error: string | null;
+  clearError: () => void;
+
+  examplesOpen: boolean;
+  toggleExamples: () => void;
+  closeExamples: () => void;
+
+  renderSurface: () => void;
+  loadExample: (index: number) => void;
+  resetDefaults: () => void;
+};
+
+export const useStore = create<AppState>()((set, get) => ({
   equation: EXAMPLES[0].eq,
   setEquation: (equation) => set({ equation }),
 
@@ -75,7 +136,7 @@ export const useStore = create((set, get) => ({
       fn = buildMathFunction(expr);
     } catch (err) {
       set({
-        error: err.message,
+        error: err instanceof Error ? err.message : String(err),
         status: { type: "error", message: "Error en la ecuacion", timing: "" },
       });
       return;
@@ -99,12 +160,14 @@ export const useStore = create((set, get) => ({
     const xArr = linspace(xMin, xMax, resolution);
     const yArr = linspace(yMin, yMax, resolution);
 
-    let zData;
+    let zData: ZMatrix;
     try {
       zData = generateZ(fn, xArr, yArr);
     } catch (err) {
       set({
-        error: "Error evaluando: " + err.message,
+        error:
+          "Error evaluando: " +
+          (err instanceof Error ? err.message : String(err)),
         status: { type: "error", message: "Error en la ecuacion", timing: "" },
       });
       return;

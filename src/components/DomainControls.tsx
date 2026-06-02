@@ -1,13 +1,16 @@
 import { useRef } from "react";
+import type { ChangeEvent, FocusEvent } from "react";
 import { useStore } from "../store";
 
 const PRESETS = [
   { label: "Compacto", value: "-5,5,-5,5" },
   { label: "Amplio", value: "-10,10,-10,10" },
   { label: "Pi", value: "-3.14,3.14,-3.14,3.14" },
-];
+] as const;
 
-const FIELDS = [
+type DomainField = "xMin" | "xMax" | "yMin" | "yMax";
+
+const FIELDS: ReadonlyArray<readonly [DomainField, string]> = [
   ["xMin", "X min"],
   ["xMax", "X max"],
   ["yMin", "Y min"],
@@ -24,17 +27,17 @@ export function DomainControls() {
   const renderSurface = useStore((s) => s.renderSurface);
   const changedRef = useRef(false);
 
-  const values = { xMin, xMax, yMin, yMax };
+  const values: Record<DomainField, number> = { xMin, xMax, yMin, yMax };
 
-  const handleChange = (field, value) => {
+  const handleChange = (field: DomainField, value: string) => {
     const num = parseFloat(value);
     if (isNaN(num)) return;
     changedRef.current = true;
-    const newState = { xMin, xMax, yMin, yMax, [field]: num };
-    setDomain(newState.xMin, newState.xMax, newState.yMin, newState.yMax);
+    const next = { xMin, xMax, yMin, yMax, [field]: num };
+    setDomain(next.xMin, next.xMax, next.yMin, next.yMax);
   };
 
-  const handleBlur = () => {
+  const handleBlur = (_e: FocusEvent<HTMLInputElement>) => {
     if (changedRef.current) {
       changedRef.current = false;
       renderSurface();
@@ -67,7 +70,9 @@ export function DomainControls() {
               type="number"
               value={values[field]}
               step={0.01}
-              onChange={(e) => handleChange(field, e.target.value)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                handleChange(field, e.target.value)
+              }
               onBlur={handleBlur}
               className="w-full min-h-[44px] py-2 px-3 border border-line rounded-xl outline-none bg-[#fcfffc] text-ink font-mono text-[0.84rem] transition-all focus:border-moss-600 focus:shadow-[0_0_0_3px_rgba(47,95,70,0.12)]"
             />

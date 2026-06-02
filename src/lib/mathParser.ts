@@ -1,4 +1,6 @@
-const MATH_FUNCTIONS = {
+export type MathFunction = (x: number, y: number) => number;
+
+const MATH_FUNCTIONS: Record<string, string> = {
   pi: "Math.PI",
   sin: "Math.sin",
   cos: "Math.cos",
@@ -27,15 +29,15 @@ const MATH_FUNCTIONS = {
   e: "Math.E",
 };
 
-const ALLOWED_VARS = { x: true, y: true };
+const ALLOWED_VARS: Record<string, boolean> = { x: true, y: true };
 const TOKEN_RE = /[a-zA-Z_]\w*|\d+\.?\d*|[+\-*/^(),]/g;
 
-function tokenize(expr) {
+function tokenize(expr: string): string[] {
   return expr.match(TOKEN_RE) || [];
 }
 
-function fixUnaryOperators(tokens) {
-  const result = [];
+function fixUnaryOperators(tokens: string[]): string[] {
+  const result: string[] = [];
   for (let i = 0; i < tokens.length; i++) {
     const tok = tokens[i];
     if (tok === "-" || tok === "+") {
@@ -52,8 +54,8 @@ function fixUnaryOperators(tokens) {
   return result;
 }
 
-function fixExponentiation(tokens) {
-  const result = [];
+function fixExponentiation(tokens: string[]): string[] {
+  const result: string[] = [];
   for (let i = 0; i < tokens.length; i++) {
     const tok = tokens[i];
     if (tok === "^") {
@@ -62,11 +64,13 @@ function fixExponentiation(tokens) {
         continue;
       }
       const last = result.pop();
+      if (last === undefined) continue;
       if (last === ")") {
-        const group = [last];
+        const group: string[] = [last];
         let balance = 1;
         while (balance > 0 && result.length > 0) {
           const t = result.pop();
+          if (t === undefined) break;
           if (t === ")") balance++;
           else if (t === "(") balance--;
           group.unshift(t);
@@ -87,8 +91,8 @@ function fixExponentiation(tokens) {
   return result;
 }
 
-function insertImplicitMul(tokens) {
-  const result = [];
+function insertImplicitMul(tokens: string[]): string[] {
+  const result: string[] = [];
   for (let i = 0; i < tokens.length; i++) {
     const curr = tokens[i];
     if (i > 0) {
@@ -106,7 +110,7 @@ function insertImplicitMul(tokens) {
   return result;
 }
 
-function mapTokens(tokens) {
+function mapTokens(tokens: string[]): string[] {
   return tokens.map((tok) => {
     if (MATH_FUNCTIONS[tok]) return MATH_FUNCTIONS[tok];
     if (tok === "^") return "**";
@@ -114,7 +118,7 @@ function mapTokens(tokens) {
   });
 }
 
-function validateVars(mapped) {
+function validateVars(mapped: string[]): void {
   for (const tok of mapped) {
     if (
       /^[a-zA-Z_]\w*$/.test(tok) &&
@@ -128,7 +132,7 @@ function validateVars(mapped) {
   }
 }
 
-export function buildMathFunction(expr) {
+export function buildMathFunction(expr: string): MathFunction {
   const tokens = tokenize(expr);
   const withoutUnary = fixUnaryOperators(tokens);
   const fixedExp = fixExponentiation(withoutUnary);
@@ -138,7 +142,7 @@ export function buildMathFunction(expr) {
   const code = mapped.join(" ");
 
   try {
-    return new Function("x", "y", `return (${code})`);
+    return new Function("x", "y", `return (${code})`) as MathFunction;
   } catch {
     throw new Error(
       "Error de sintaxis en la expresion. Revisa los parentesis y operadores."
@@ -146,17 +150,23 @@ export function buildMathFunction(expr) {
   }
 }
 
-export function linspace(start, end, n) {
+export function linspace(start: number, end: number, n: number): number[] {
   const step = (end - start) / (n - 1);
-  const arr = [];
+  const arr: number[] = [];
   for (let i = 0; i < n; i++) arr.push(start + step * i);
   return arr;
 }
 
-export function generateZ(fn, xArr, yArr) {
-  const z = [];
+export type ZMatrix = (number | null)[][];
+
+export function generateZ(
+  fn: MathFunction,
+  xArr: number[],
+  yArr: number[]
+): ZMatrix {
+  const z: ZMatrix = [];
   for (let j = 0; j < yArr.length; j++) {
-    const row = [];
+    const row: (number | null)[] = [];
     for (let i = 0; i < xArr.length; i++) {
       const val = fn(xArr[i], yArr[j]);
       row.push(isFinite(val) ? val : null);

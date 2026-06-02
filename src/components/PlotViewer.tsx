@@ -1,11 +1,12 @@
 import { useMemo } from "react";
+import type { Data, Layout, Config } from "plotly.js";
 import createPlotlyComponent from "react-plotly.js/factory";
 import Plotly from "plotly.js-dist-min";
 import { useStore } from "../store";
 
 const Plot = createPlotlyComponent(Plotly);
 
-function axisCfg(label, color) {
+function axisCfg(label: string, color: string) {
   return {
     title: {
       text: label,
@@ -22,7 +23,7 @@ function axisCfg(label, color) {
   };
 }
 
-const LAYOUT = {
+const LAYOUT: Partial<Layout> = {
   scene: {
     xaxis: axisCfg("X", "#8ed1c6"),
     yaxis: axisCfg("Y", "#f1a37d"),
@@ -35,7 +36,7 @@ const LAYOUT = {
   font: { family: "Inter" },
 };
 
-const CONFIG = {
+const CONFIG: Partial<Config> = {
   responsive: true,
   displayModeBar: true,
   displaylogo: false,
@@ -46,13 +47,15 @@ export function PlotViewer() {
   const colorScale = useStore((s) => s.colorScale);
   const surfaceMode = useStore((s) => s.surfaceMode);
 
-  const data = useMemo(() => {
+  const data = useMemo<Data[]>(() => {
     if (!plotData) return [];
     const { x, y, z } = plotData;
     const hoverTpl = "x: %{x:.2f}<br>y: %{y:.2f}<br>z: %{z:.4f}<extra></extra>";
 
     if (surfaceMode === "points") {
-      const xp = [], yp = [], zp = [];
+      const xp: number[] = [];
+      const yp: number[] = [];
+      const zp: (number | null)[] = [];
       for (let i = 0; i < y.length; i++) {
         for (let j = 0; j < x.length; j++) {
           xp.push(x[j]);
@@ -60,38 +63,49 @@ export function PlotViewer() {
           zp.push(z[i][j]);
         }
       }
-      return [{
-        type: "scatter3d",
-        mode: "markers",
-        x: xp, y: yp, z: zp,
-        marker: { size: 2, color: zp, colorscale: colorScale, showscale: false },
-        hovertemplate: hoverTpl,
-      }];
+      return [
+        {
+          type: "scatter3d",
+          mode: "markers",
+          x: xp,
+          y: yp,
+          z: zp,
+          marker: {
+            size: 2,
+            color: zp as number[],
+            colorscale: colorScale,
+            showscale: false,
+          },
+          hovertemplate: hoverTpl,
+        },
+      ];
     }
 
     if (surfaceMode === "wireframe") {
-      const traces = [];
+      const traces: Data[] = [];
       for (let i = 0; i < y.length; i++) {
         traces.push({
           type: "scatter3d",
           mode: "lines",
           x: x,
-          y: Array(x.length).fill(y[i]),
-          z: z[i],
-          line: { width: 1.5, color: z[i], colorscale: colorScale },
+          y: Array<number>(x.length).fill(y[i]),
+          z: z[i] as number[],
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          line: { width: 1.5, color: z[i] as number[], colorscale: colorScale } as any,
           hoverinfo: "skip",
           showlegend: false,
         });
       }
       for (let j = 0; j < x.length; j++) {
-        const col = z.map((row) => row[j]);
+        const col = z.map((row) => row[j]) as number[];
         traces.push({
           type: "scatter3d",
           mode: "lines",
-          x: Array(y.length).fill(x[j]),
+          x: Array<number>(y.length).fill(x[j]),
           y: y,
           z: col,
-          line: { width: 1.5, color: col, colorscale: colorScale },
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          line: { width: 1.5, color: col, colorscale: colorScale } as any,
           hoverinfo: "skip",
           showlegend: false,
         });
@@ -99,11 +113,12 @@ export function PlotViewer() {
       return traces;
     }
 
-    // surface (default)
     return [
       {
         type: "surface",
-        x, y, z,
+        x,
+        y,
+        z: z as number[][],
         colorscale: colorScale,
         contours: {
           z: {
@@ -116,7 +131,7 @@ export function PlotViewer() {
         lighting: { ambient: 0.6, diffuse: 0.7, specular: 0.3, roughness: 0.4 },
         hovertemplate: hoverTpl,
         showscale: false,
-      },
+      } as Data,
     ];
   }, [plotData, colorScale, surfaceMode]);
 

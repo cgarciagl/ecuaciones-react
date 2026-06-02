@@ -5,7 +5,11 @@ import { DomainControls } from "./components/DomainControls";
 import { MeshControls } from "./components/MeshControls";
 import { ColorPicker } from "./components/ColorPicker";
 import { ActionRow } from "./components/ActionRow";
-import { ExamplesPanel, ExamplesSheet, FloatingExamplesButton } from "./components/ExamplesPanel";
+import {
+  ExamplesPanel,
+  ExamplesSheet,
+  FloatingExamplesButton,
+} from "./components/ExamplesPanel";
 import { WorkspaceBar } from "./components/WorkspaceBar";
 import { PlotViewer } from "./components/PlotViewer";
 import { StatusBar } from "./components/StatusBar";
@@ -17,10 +21,10 @@ export default function App() {
 
   useEffect(() => {
     renderSurface();
-  }, []);
+  }, [renderSurface]);
 
   useEffect(() => {
-    const handleEscape = (e) => {
+    const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") useStore.getState().closeExamples();
     };
     document.addEventListener("keydown", handleEscape);

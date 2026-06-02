@@ -1,6 +1,7 @@
+import type { SurfaceMode } from "../store";
 import { useStore } from "../store";
 
-const MODES = [
+const MODES: ReadonlyArray<{ id: SurfaceMode; label: string }> = [
   { id: "surface", label: "Malla" },
   { id: "wireframe", label: "Wireframe" },
   { id: "points", label: "Puntos" },

@@ -1,4 +1,5 @@
-import { useRef, useCallback } from "react";
+import { useCallback } from "react";
+import type { ChangeEvent, KeyboardEvent } from "react";
 import { useStore } from "../store";
 
 export function EquationInput() {
@@ -7,11 +8,15 @@ export function EquationInput() {
   const renderSurface = useStore((s) => s.renderSurface);
 
   const handleKeyDown = useCallback(
-    (e) => {
+    (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.key === "Enter") renderSurface();
     },
     [renderSurface]
   );
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setEquation(e.target.value);
+  };
 
   return (
     <section className="section-panel border border-line/80 rounded-[14px] bg-[linear-gradient(160deg,rgba(255,255,255,0.94),rgba(249,253,250,0.9))] shadow-[0_10px_26px_rgba(20,30,24,0.07)]">
@@ -37,7 +42,7 @@ export function EquationInput() {
           <input
             type="text"
             value={equation}
-            onChange={(e) => setEquation(e.target.value)}
+            onChange={handleChange}
             onKeyDown={handleKeyDown}
             placeholder="sin(x) * cos(y)"
             spellCheck={false}

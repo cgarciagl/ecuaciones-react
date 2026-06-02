@@ -1,6 +1,6 @@
 import { useCallback } from "react";
-import { useStore } from "../store";
 import Plotly from "plotly.js-dist-min";
+import { useStore } from "../store";
 
 export function WorkspaceBar() {
   const plotTitle = useStore((s) => s.plotTitle);
@@ -8,22 +8,24 @@ export function WorkspaceBar() {
   const resetCamera = useCallback(() => {
     const plotDiv = document.querySelector(".js-plotly-plot");
     if (plotDiv) {
-      Plotly.relayout(plotDiv, {
+      Plotly.relayout(plotDiv as Plotly.PlotlyHTMLElement, {
         "scene.camera": { eye: { x: 1.5, y: 1.5, z: 1.2 } },
-      });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } as any);
     }
   }, []);
 
   const downloadPng = useCallback(() => {
     const plotDiv = document.querySelector(".js-plotly-plot");
     if (plotDiv) {
-      Plotly.downloadImage(plotDiv, {
+      Plotly.downloadImage(plotDiv as Plotly.PlotlyHTMLElement, {
         format: "png",
         filename: "superficie-3d",
         width: 1400,
         height: 1000,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         scale: 1,
-      });
+      } as any);
     }
   }, []);
 

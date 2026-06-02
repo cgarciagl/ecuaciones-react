@@ -88,26 +88,28 @@ pnpm preview
 ecuaciones-react/
 ├── src/
 │   ├── components/
-│   │   ├── ActionRow.jsx        # Botones generar/reset
-│   │   ├── ColorPicker.jsx      # Selector de escala de color
-│   │   ├── DomainControls.jsx   # Controles de rango X/Y
-│   │   ├── EquationInput.jsx    # Input de ecuacion + funciones
-│   │   ├── ExamplesPanel.jsx    # Panel de ejemplos + sheet mobile
-│   │   ├── Footer.jsx           # Barra de atajos de teclado
-│   │   ├── Header.jsx           # Logo y titulo
-│   │   ├── MeshControls.jsx     # Slider de resolucion
-│   │   ├── PlotViewer.jsx       # Grafico 3D Plotly
-│   │   ├── StatusBar.jsx        # Indicador de estado
-│   │   └── WorkspaceBar.jsx     # Barra de herramientas
+│   │   ├── ActionRow.tsx        # Botones generar/reset
+│   │   ├── ColorPicker.tsx      # Selector de escala de color
+│   │   ├── DomainControls.tsx   # Controles de rango X/Y
+│   │   ├── EquationInput.tsx    # Input de ecuacion + funciones
+│   │   ├── ExamplesPanel.tsx    # Panel de ejemplos + sheet mobile
+│   │   ├── Footer.tsx           # Barra de atajos de teclado
+│   │   ├── Header.tsx           # Logo y titulo
+│   │   ├── MeshControls.tsx     # Slider de resolucion
+│   │   ├── PlotViewer.tsx       # Grafico 3D Plotly
+│   │   ├── StatusBar.tsx        # Indicador de estado
+│   │   └── WorkspaceBar.tsx     # Barra de herramientas
 │   ├── lib/
-│   │   ├── mathParser.js        # Parser de ecuaciones
-│   │   └── examples.js          # Definiciones de ejemplos
+│   │   ├── mathParser.ts        # Parser de ecuaciones
+│   │   └── examples.ts          # Definiciones de ejemplos
 │   ├── store/
-│   │   └── index.js             # Zustand store global
-│   ├── App.jsx                  # Layout principal
-│   ├── main.jsx                 # Entry point
+│   │   └── index.ts             # Zustand store global
+│   ├── global.d.ts              # Shims de tipos (plotly, css)
+│   ├── App.tsx                  # Layout principal
+│   ├── main.tsx                 # Entry point
 │   └── index.css                # Estilos globales + Tailwind
 ├── rsbuild.config.mjs           # Configuracion de Rspack
+├── tsconfig.json                # Configuracion de TypeScript
 └── package.json
 ```
 
