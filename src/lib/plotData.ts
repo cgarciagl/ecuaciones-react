@@ -105,6 +105,58 @@ function buildTriples(plotData: PlotData): Triple[] {
   return data;
 }
 
+function buildWireframeSeries(plotData: PlotData) {
+  const { x, y, z } = plotData;
+  const series: Array<{
+    type: "line3D";
+    data: Triple[];
+    lineStyle: { width: number; color: string };
+  }> = [];
+  const collectSegment = (coords: Triple[]): Triple[] | null => {
+    if (coords.length < 2) return null;
+    return coords;
+  };
+
+  for (let j = 0; j < y.length; j++) {
+    const row = z[j];
+    const coords: Triple[] = [];
+    for (let i = 0; i < x.length; i++) {
+      const v = row[i];
+      if (v !== null && Number.isFinite(v)) {
+        coords.push([x[i], y[j], v]);
+      }
+    }
+    const segment = collectSegment(coords);
+    if (segment) {
+      series.push({
+        type: "line3D",
+        data: segment,
+        lineStyle: { width: 0.6, color: "auto" },
+      });
+    }
+  }
+
+  for (let i = 0; i < x.length; i++) {
+    const coords: Triple[] = [];
+    for (let j = 0; j < y.length; j++) {
+      const v = z[j][i];
+      if (v !== null && Number.isFinite(v)) {
+        coords.push([x[i], y[j], v]);
+      }
+    }
+    const segment = collectSegment(coords);
+    if (segment) {
+      series.push({
+        type: "line3D",
+        data: segment,
+        lineStyle: { width: 0.6, color: "auto" },
+      });
+    }
+  }
+
+  return series;
+}
+
 function zBounds(data: Triple[]): [number, number] {
   let min = Infinity;
   let max = -Infinity;
@@ -130,7 +182,7 @@ export const INITIAL_VIEW_CONTROL = {
   beta: 30,
   distance: 200,
   center: [0, 0, 0],
-  rotateSensitivity: 30,
+  rotateSensitivity: 10,
   zoomSensitivity: 2,
   panSensitivity: 2,
 } as const;
@@ -191,6 +243,14 @@ export function buildEChartsOption(
     } as EChartsOption;
   }
 
+  if (surfaceMode === "wireframe") {
+    return {
+      ...baseOption,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      series: buildWireframeSeries(plotData) as any,
+    } as EChartsOption;
+  }
+
   return {
     ...baseOption,
     series: [
@@ -200,7 +260,7 @@ export function buildEChartsOption(
         dataShape: [y.length, x.length],
         shading: "lambert",
         wireframe: {
-          show: surfaceMode === "wireframe",
+          show: false,
           lineStyle: { color: "rgba(255,255,255,0.45)", width: 0.5 },
         },
         lambertMaterial: {

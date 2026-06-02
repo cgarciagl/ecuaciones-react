@@ -87,7 +87,7 @@ export const useStore = create<AppState>()((set, get) => ({
     }
   },
 
-  resolution: 60,
+  resolution: 80,
   setResolution: (resolution) => {
     set({ resolution });
     get().renderSurface();

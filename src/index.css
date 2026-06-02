@@ -234,3 +234,11 @@ button:focus-visible {
 .js-plotly-plot .plotly .modebar-btn:hover {
   color: rgba(255, 255, 255, 0.96) !important;
 }
+
+input {
+  padding-left: 12px;
+}
+
+.zigual {
+  padding-left: 12px;
+}

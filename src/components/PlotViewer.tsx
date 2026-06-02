@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from "react";
 import * as echarts from "echarts/core";
-import { Scatter3DChart, SurfaceChart } from "echarts-gl/charts";
+import { Line3DChart, Scatter3DChart, SurfaceChart } from "echarts-gl/charts";
 import { Grid3DComponent } from "echarts-gl/components";
 import { TooltipComponent, VisualMapComponent } from "echarts/components";
 import { CanvasRenderer } from "echarts/renderers";
@@ -14,6 +14,7 @@ import {
 echarts.use([
   SurfaceChart,
   Scatter3DChart,
+  Line3DChart,
   Grid3DComponent,
   TooltipComponent,
   VisualMapComponent,

@@ -36,7 +36,7 @@ export function EquationInput() {
 
       <label className="block">
         <div className="flex items-center w-full min-h-[56px] border-[1.5px] border-line-strong rounded-xl bg-[#fcfffc] transition-all focus-within:border-moss-600 focus-within:bg-white focus-within:shadow-[0_0_0_4px_rgba(47,95,70,0.14)]">
-          <span className="shrink-0 pl-4 pr-2 text-moss-600 font-mono text-[0.92rem] font-semibold pointer-events-none">
+          <span className="shrink-0 pl-4 pr-2 text-moss-600 font-mono text-[0.92rem] font-semibold pointer-events-none zigual">
             z =
           </span>
           <input

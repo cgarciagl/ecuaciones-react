@@ -20,7 +20,7 @@ describe("useStore - initial state", () => {
   });
 
   it("starts with resolution 60, Viridis color and surface mode", () => {
-    expect(getState().resolution).toBe(60);
+    expect(getState().resolution).toBe(80);
     expect(getState().colorScale).toBe("Viridis");
     expect(getState().surfaceMode).toBe("surface");
   });

@@ -31,7 +31,7 @@ export function MeshControls() {
         </span>
       </div>
 
-      <div className="grid gap-3">
+      <div className="grid gap-3 mb-3">
         <label className="text-muted text-[0.72rem] font-bold tracking-[0.08em] uppercase">
           Estilo
         </label>
@@ -40,10 +40,10 @@ export function MeshControls() {
             <button
               key={m.id}
               onClick={() => setSurfaceMode(m.id)}
-              className={`flex-1 py-1.5 rounded-lg text-[0.72rem] font-bold tracking-[0.04em] transition-colors ${
+              className={`flex-1 py-1.5 rounded-lg text-[0.72rem] font-bold tracking-[0.04em] transition-all border ${
                 surfaceMode === m.id
-                  ? "bg-ink text-white shadow-sm"
-                  : "bg-white/60 text-muted hover:bg-white/90"
+                  ? "bg-ink text-white shadow-sm border-ink"
+                  : "bg-white/40 border-line/50 text-ink-soft/70 hover:bg-white/80 hover:border-line hover:text-ink"
               }`}
             >
               {m.label}
