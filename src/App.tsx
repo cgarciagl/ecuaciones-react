@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Header } from "./components/Header";
 import { EquationInput } from "./components/EquationInput";
 import { DomainControls } from "./components/DomainControls";
@@ -11,10 +11,15 @@ import {
   FloatingExamplesButton,
 } from "./components/ExamplesPanel";
 import { WorkspaceBar } from "./components/WorkspaceBar";
-import { PlotViewer } from "./components/PlotViewer";
 import { StatusBar } from "./components/StatusBar";
 import { Footer } from "./components/Footer";
 import { useStore } from "./store";
+
+const PlotViewer = lazy(() =>
+  import(/* webpackChunkName: "echarts" */ "./components/PlotViewer").then(
+    (m) => ({ default: m.PlotViewer })
+  )
+);
 
 export default function App() {
   const renderSurface = useStore((s) => s.renderSurface);
@@ -52,7 +57,15 @@ export default function App() {
 
       <main className="flex flex-col min-w-0 min-h-0 gap-3.5 max-[980px]:row-[2] max-[980px]:gap-0 max-[980px]:bg-dark-bg">
         <WorkspaceBar />
-        <PlotViewer />
+        <Suspense
+          fallback={
+            <div className="flex-1 min-h-[320px] flex items-center justify-center text-white/45 text-[0.96rem] font-medium border border-[#2d362a] rounded-[18px] bg-[#13180f]">
+              Cargando visualizador...
+            </div>
+          }
+        >
+          <PlotViewer />
+        </Suspense>
         <StatusBar />
       </main>
 

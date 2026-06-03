@@ -21,6 +21,14 @@ export default defineConfig({
   server: {
     port: 3000,
   },
+  performance: {
+    preload: ({ type, path }) => {
+      if (type === "js" && path.startsWith("static/js/async/")) {
+        return { as: "script", fetchPriority: "low" };
+      }
+      return false;
+    },
+  },
   tools: {
     rspack: {
       output: {
@@ -30,9 +38,9 @@ export default defineConfig({
         splitChunks: {
           chunks: "all",
           cacheGroups: {
-            plotly: {
-              test: /[\\/]node_modules[\\/](plotly|react-plotly)/,
-              name: "plotly",
+            echarts: {
+              test: /[\\/]node_modules[\\/](echarts|echarts-gl|zrender)/,
+              name: "echarts",
               chunks: "all",
               priority: 20,
             },
