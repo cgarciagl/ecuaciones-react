@@ -54,8 +54,6 @@ export function useInstallPrompt(): UseInstallPromptResult {
   const isIOS = detectIOS();
 
   useEffect(() => {
-    if (dismissed || installed) return;
-
     const onPrompt = (e: BeforeInstallPromptEvent) => {
       e.preventDefault();
       setDeferred(e);
@@ -71,7 +69,7 @@ export function useInstallPrompt(): UseInstallPromptResult {
       window.removeEventListener("beforeinstallprompt", onPrompt);
       window.removeEventListener("appinstalled", onInstalled);
     };
-  }, [dismissed, installed]);
+  }, []);
 
   const promptInstall = useCallback(async () => {
     if (!deferred) return;
