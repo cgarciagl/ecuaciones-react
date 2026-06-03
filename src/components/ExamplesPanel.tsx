@@ -5,15 +5,18 @@ import { SectionHeader } from "./SectionHeader";
 import { ExampleButton } from "./ExampleButton";
 
 export function ExamplesPanel() {
-  const loadExample = useStore((s) => s.loadExample);
-
   return (
     <SectionPanel>
       <SectionHeader number="05" title="Ejemplos" />
 
       <div className="grid gap-2">
         {EXAMPLES.map((ex, i) => (
-          <ExampleButton key={i} example={ex} index={i} onSelect={loadExample} />
+          <ExampleButton
+            key={i}
+            example={ex}
+            index={i}
+            onSelect={(idx) => useStore.getState().loadExample(idx)}
+          />
         ))}
       </div>
     </SectionPanel>
@@ -22,8 +25,6 @@ export function ExamplesPanel() {
 
 export function ExamplesSheet() {
   const examplesOpen = useStore((s) => s.examplesOpen);
-  const closeExamples = useStore((s) => s.closeExamples);
-  const loadExample = useStore((s) => s.loadExample);
 
   return (
     <div
@@ -33,7 +34,7 @@ export function ExamplesSheet() {
     >
       <button
         type="button"
-        onClick={closeExamples}
+        onClick={() => useStore.getState().closeExamples()}
         aria-label="Cerrar ejemplos"
         className={`absolute inset-0 transition-colors ${
           examplesOpen ? "bg-ink/38" : "bg-transparent"
@@ -55,7 +56,7 @@ export function ExamplesSheet() {
           </div>
           <button
             type="button"
-            onClick={closeExamples}
+            onClick={() => useStore.getState().closeExamples()}
             className="min-h-[34px] px-3 border border-line rounded-full bg-white text-ink-soft text-[0.78rem] font-bold cursor-pointer"
           >
             Cerrar
@@ -69,7 +70,7 @@ export function ExamplesSheet() {
                 key={i}
                 example={ex}
                 index={i}
-                onSelect={loadExample}
+                onSelect={(idx) => useStore.getState().loadExample(idx)}
                 variant="sheet"
               />
             ))}
@@ -81,12 +82,10 @@ export function ExamplesSheet() {
 }
 
 export function FloatingExamplesButton() {
-  const toggleExamples = useStore((s) => s.toggleExamples);
-
   return (
     <button
       type="button"
-      onClick={toggleExamples}
+      onClick={() => useStore.getState().toggleExamples()}
       className="fixed right-3.5 bottom-3.5 z-20 min-h-[54px] px-5 border border-white/28 rounded-full bg-[linear-gradient(145deg,#2f8f66,#2f5f46)] text-white shadow-[0_18px_38px_rgba(31,64,50,0.36)] cursor-pointer text-[0.84rem] font-extrabold tracking-[0.03em] uppercase hidden max-[980px]:block"
     >
       Ejemplos

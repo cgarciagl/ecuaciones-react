@@ -1,3 +1,4 @@
+import { useTransition } from "react";
 import type { SurfaceMode } from "../store";
 import { useStore } from "../store";
 import { SectionPanel } from "./SectionPanel";
@@ -11,11 +12,22 @@ const MODES: ReadonlyArray<{ id: SurfaceMode; label: string }> = [
 
 export function MeshControls() {
   const resolution = useStore((s) => s.resolution);
-  const setResolution = useStore((s) => s.setResolution);
   const surfaceMode = useStore((s) => s.surfaceMode);
-  const setSurfaceMode = useStore((s) => s.setSurfaceMode);
+  const [, startTransition] = useTransition();
 
   const pointCount = (resolution * resolution).toLocaleString("es-MX");
+
+  const handleMode = (mode: SurfaceMode) => {
+    startTransition(() => {
+      useStore.getState().setSurfaceMode(mode);
+    });
+  };
+
+  const handleResolution = (value: number) => {
+    startTransition(() => {
+      useStore.getState().setResolution(value);
+    });
+  };
 
   return (
     <SectionPanel>
@@ -34,7 +46,7 @@ export function MeshControls() {
             <button
               key={m.id}
               type="button"
-              onClick={() => setSurfaceMode(m.id)}
+              onClick={() => handleMode(m.id)}
               className={`flex-1 py-1.5 rounded-lg text-[0.72rem] font-bold tracking-[0.04em] transition-all border ${
                 surfaceMode === m.id
                   ? "bg-ink text-white shadow-sm border-ink"
@@ -62,7 +74,7 @@ export function MeshControls() {
           max={200}
           step={5}
           value={resolution}
-          onChange={(e) => setResolution(Number(e.target.value))}
+          onChange={(e) => handleResolution(Number(e.target.value))}
         />
       </div>
     </SectionPanel>

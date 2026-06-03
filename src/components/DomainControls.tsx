@@ -24,9 +24,6 @@ export function DomainControls() {
   const xMax = useStore((s) => s.xMax);
   const yMin = useStore((s) => s.yMin);
   const yMax = useStore((s) => s.yMax);
-  const setDomain = useStore((s) => s.setDomain);
-  const setDomainPreset = useStore((s) => s.setDomainPreset);
-  const renderSurface = useStore((s) => s.renderSurface);
   const changedRef = useRef(false);
 
   const values: Record<DomainField, number> = { xMin, xMax, yMin, yMax };
@@ -36,13 +33,13 @@ export function DomainControls() {
     if (isNaN(num)) return;
     changedRef.current = true;
     const next = { xMin, xMax, yMin, yMax, [field]: num };
-    setDomain(next.xMin, next.xMax, next.yMin, next.yMax);
+    useStore.getState().setDomain(next.xMin, next.xMax, next.yMin, next.yMax);
   };
 
   const handleBlur = () => {
     if (changedRef.current) {
       changedRef.current = false;
-      renderSurface();
+      useStore.getState().renderSurface();
     }
   };
 
@@ -79,7 +76,7 @@ export function DomainControls() {
           <button
             key={p.label}
             type="button"
-            onClick={() => setDomainPreset(p.value)}
+            onClick={() => useStore.getState().setDomainPreset(p.value)}
             className="group relative w-full overflow-hidden min-h-[40px] px-4.5 border border-[#b6c6b8] rounded-full bg-[linear-gradient(180deg,#ffffff,#edf5ee)] text-[#3a4a3d] font-mono text-[0.78rem] font-semibold cursor-pointer shadow-[0_2px_0_rgba(255,255,255,0.8)_inset,0_1px_2px_rgba(20,30,24,0.12)] transition-all duration-150 hover:border-moss-600/65 hover:text-moss-700 hover:-translate-y-px hover:shadow-[0_2px_0_rgba(255,255,255,0.9)_inset,0_8px_16px_rgba(47,95,70,0.16)] active:translate-y-0 active:shadow-[0_2px_0_rgba(255,255,255,0.8)_inset,0_2px_5px_rgba(20,30,24,0.14)]"
           >
             <span className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.55),transparent_48%)] opacity-70 group-hover:opacity-100 transition-opacity" />

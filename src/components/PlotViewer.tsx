@@ -8,12 +8,9 @@ import type { EChartsType } from "echarts/core";
 import { useStore } from "../store";
 import {
   buildEChartsOption,
+  ECHARTS_CONTAINER_ID,
   INITIAL_VIEW_CONTROL,
 } from "../lib/plotData";
-import {
-  ECHARTS_CONTAINER_ID,
-  subscribeSurfaceActions,
-} from "../lib/surfaceEvents";
 
 echarts.use([
   SurfaceChart,
@@ -29,9 +26,11 @@ export function PlotViewer() {
   const plotData = useStore((s) => s.plotData);
   const colorScale = useStore((s) => s.colorScale);
   const surfaceMode = useStore((s) => s.surfaceMode);
+  const surfaceAction = useStore((s) => s.surfaceAction);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<EChartsType | null>(null);
+  const lastNonceRef = useRef(surfaceAction.nonce);
 
   const option = useMemo(
     () => (plotData ? buildEChartsOption(plotData, colorScale, surfaceMode) : null),
@@ -43,7 +42,6 @@ export function PlotViewer() {
     if (!container) return;
     const chart = echarts.init(container, undefined, { renderer: "canvas" });
     chartRef.current = chart;
-    chart.resize();
     const ro = new ResizeObserver(() => chart.resize());
     ro.observe(container);
     return () => {
@@ -61,27 +59,29 @@ export function PlotViewer() {
   }, [option]);
 
   useEffect(() => {
-    return subscribeSurfaceActions((action) => {
-      const chart = chartRef.current;
-      if (!chart) return;
-      if (action.type === "resetCamera") {
-        chart.setOption(
-          { grid3D: { viewControl: { ...INITIAL_VIEW_CONTROL } } },
-          false
-        );
-      } else {
-        const url = chart.getDataURL({
-          type: "png",
-          pixelRatio: 2,
-          backgroundColor: "#13180f",
-        });
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "superficie-3d.png";
-        a.click();
-      }
-    });
-  }, []);
+    if (surfaceAction.nonce === lastNonceRef.current) return;
+    lastNonceRef.current = surfaceAction.nonce;
+    const action = surfaceAction.action;
+    if (!action) return;
+    const chart = chartRef.current;
+    if (!chart) return;
+    if (action.type === "resetCamera") {
+      chart.setOption(
+        { grid3D: { viewControl: { ...INITIAL_VIEW_CONTROL } } },
+        false
+      );
+    } else {
+      const url = chart.getDataURL({
+        type: "png",
+        pixelRatio: 2,
+        backgroundColor: "#13180f",
+      });
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "superficie-3d.png";
+      a.click();
+    }
+  }, [surfaceAction]);
 
   return (
     <div className="relative flex-1 min-h-[320px] overflow-hidden border border-[#2d362a] rounded-[18px] shadow-[0_28px_80px_rgba(15,20,12,0.42)]">

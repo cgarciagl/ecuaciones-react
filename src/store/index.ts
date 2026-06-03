@@ -8,6 +8,7 @@ import {
 } from "../lib/mathParser";
 
 const DEFAULT_RANGE: [number, number] = [-3.14, 3.14];
+const INITIAL_RESOLUTION = 80;
 
 export type ColorScale =
   | "Viridis"
@@ -27,6 +28,13 @@ export type PlotData = {
   x: number[];
   y: number[];
   z: ZMatrix;
+};
+
+export type SurfaceAction = { type: "resetCamera" | "downloadPng" };
+
+export type SurfaceActionState = {
+  action: SurfaceAction | null;
+  nonce: number;
 };
 
 export type AppState = {
@@ -60,6 +68,9 @@ export type AppState = {
   toggleExamples: () => void;
   closeExamples: () => void;
 
+  surfaceAction: SurfaceActionState;
+  dispatchSurfaceAction: (type: SurfaceAction["type"]) => void;
+
   renderSurface: () => void;
   loadExample: (index: number) => void;
   resetDefaults: () => void;
@@ -70,6 +81,64 @@ const ERROR_STATUS: Status = {
   message: "Error en la ecuacion",
   timing: "",
 };
+
+function computeInitialState(): {
+  plotData: PlotData | null;
+  plotTitle: string;
+  status: Status;
+  error: string | null;
+} {
+  const equation = EXAMPLES[0].eq;
+  const expr = equation.trim();
+  if (!expr) {
+    return {
+      plotData: null,
+      plotTitle: expr,
+      status: ERROR_STATUS,
+      error: "Ingresa una ecuacion.",
+    };
+  }
+
+  let fn;
+  try {
+    fn = buildMathFunction(expr);
+  } catch (err) {
+    return {
+      plotData: null,
+      plotTitle: expr,
+      status: ERROR_STATUS,
+      error: err instanceof Error ? err.message : String(err),
+    };
+  }
+
+  const xArr = linspace(DEFAULT_RANGE[0], DEFAULT_RANGE[1], INITIAL_RESOLUTION);
+  const yArr = linspace(DEFAULT_RANGE[0], DEFAULT_RANGE[1], INITIAL_RESOLUTION);
+
+  try {
+    const zData = generateZ(fn, xArr, yArr);
+    return {
+      plotData: { x: xArr, y: yArr, z: zData },
+      plotTitle: expr,
+      status: {
+        type: "ok",
+        message: `Superficie generada (${INITIAL_RESOLUTION}x${INITIAL_RESOLUTION} puntos)`,
+        timing: "",
+      },
+      error: null,
+    };
+  } catch (err) {
+    return {
+      plotData: null,
+      plotTitle: expr,
+      status: ERROR_STATUS,
+      error:
+        "Error evaluando: " +
+        (err instanceof Error ? err.message : String(err)),
+    };
+  }
+}
+
+const INITIAL = computeInitialState();
 
 export const useStore = create<AppState>()((set, get) => {
   const setEquationError = (message: string) => {
@@ -98,7 +167,7 @@ export const useStore = create<AppState>()((set, get) => {
       }
     },
 
-    resolution: 80,
+    resolution: INITIAL_RESOLUTION,
     setResolution: (resolution) => {
       set({ resolution });
       get().renderSurface();
@@ -116,16 +185,22 @@ export const useStore = create<AppState>()((set, get) => {
       get().renderSurface();
     },
 
-    plotData: null,
-    plotTitle: EXAMPLES[0].eq,
-
-    status: { type: "ok", message: "Listo para generar", timing: "" },
-    error: null,
+    plotData: INITIAL.plotData,
+    plotTitle: INITIAL.plotTitle,
+    status: INITIAL.status,
+    error: INITIAL.error,
     clearError: () => set({ error: null }),
 
     examplesOpen: false,
     toggleExamples: () => set((s) => ({ examplesOpen: !s.examplesOpen })),
     closeExamples: () => set({ examplesOpen: false }),
+
+    surfaceAction: { action: null, nonce: 0 },
+    dispatchSurfaceAction: (type) => {
+      set((s) => ({
+        surfaceAction: { action: { type }, nonce: s.surfaceAction.nonce + 1 },
+      }));
+    },
 
     renderSurface: () => {
       const { equation, xMin, xMax, yMin, yMax, resolution } = get();
@@ -205,7 +280,7 @@ export const useStore = create<AppState>()((set, get) => {
         xMax: DEFAULT_RANGE[1],
         yMin: DEFAULT_RANGE[0],
         yMax: DEFAULT_RANGE[1],
-        resolution: 60,
+        resolution: INITIAL_RESOLUTION,
         colorScale: "Viridis",
         surfaceMode: "surface",
       });

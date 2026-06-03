@@ -1,3 +1,4 @@
+import { useTransition } from "react";
 import type { ChangeEvent, KeyboardEvent } from "react";
 import { useStore } from "../store";
 import { SectionPanel } from "./SectionPanel";
@@ -5,15 +6,18 @@ import { SectionHeader } from "./SectionHeader";
 
 export function EquationInput() {
   const equation = useStore((s) => s.equation);
-  const setEquation = useStore((s) => s.setEquation);
-  const renderSurface = useStore((s) => s.renderSurface);
+  const [, startTransition] = useTransition();
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") renderSurface();
+    if (e.key === "Enter") {
+      startTransition(() => {
+        useStore.getState().renderSurface();
+      });
+    }
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setEquation(e.target.value);
+    useStore.getState().setEquation(e.target.value);
   };
 
   return (

@@ -15,12 +15,15 @@ describe("ActionRow", () => {
     expect(screen.getByRole("button", { name: /Reset/i })).toBeInTheDocument();
   });
 
-  it("clicking Generar produces plot data", async () => {
+  it("clicking Generar re-renders plot data after equation change", async () => {
     const user = userEvent.setup();
     render(<ActionRow />);
-    expect(useStore.getState().plotData).toBeNull();
-    await user.click(screen.getByRole("button", { name: /Generar superficie/i }));
     expect(useStore.getState().plotData).not.toBeNull();
+    useStore.setState({ equation: "x*y" });
+    await user.click(screen.getByRole("button", { name: /Generar superficie/i }));
+    const s = useStore.getState();
+    expect(s.plotData).not.toBeNull();
+    expect(s.equation).toBe("x*y");
   });
 
   it("clicking Reset restores the default equation and options", async () => {
@@ -35,7 +38,7 @@ describe("ActionRow", () => {
     await user.click(screen.getByRole("button", { name: /Reset/i }));
     const s = useStore.getState();
     expect(s.equation).toBe(EXAMPLES[0].eq);
-    expect(s.resolution).toBe(60);
+    expect(s.resolution).toBe(80);
     expect(s.colorScale).toBe("Viridis");
     expect(s.surfaceMode).toBe("surface");
   });

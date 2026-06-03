@@ -28,7 +28,7 @@
 ## Caracteristicas
 
 - **Editor de ecuaciones** con autocompletado de funciones (sin, cos, sqrt, exp, log, abs)
-- **Visualizacion 3D** interactiva con Plotly.js (rotar, hacer zoom, desplazar)
+- **Visualizacion 3D** interactiva con ECharts + echarts-gl (rotar, hacer zoom, desplazar)
 - **Controles de dominio** para ajustar rangos de X e Y con presets
 - **Slider de resolucion** de malla (20x20 a 200x200 puntos)
 - **6 escalas de color**: Viridis, Plasma, Hot, Electric, Earth, Greys
@@ -45,7 +45,7 @@
 | UI       | **React 19**         | Rendering eficiente con concurrent features        |
 | Estado   | **Zustand**          | State management ligero, sin boilerplate           |
 | Estilos  | **Tailwind CSS v4**  | Utility-first, CSS optimizado en produccion        |
-| Graficos | **Plotly.js Basic**  | Motor 3D WebGL, bundle optimizado (1 MB vs 4.4 MB) |
+| Graficos | **ECharts + echarts-gl** | Motor 3D WebGL, lazy-loaded como chunk async (~730 KB) |
 | Paquetes | **pnpm**             | Deduplicacion global, ~70% menos espacio en disco  |
 
 ## Empezar
@@ -102,7 +102,7 @@ ecuaciones-react/
 │   │   ├── Footer.tsx           # Barra de atajos de teclado
 │   │   ├── Header.tsx           # Logo y titulo
 │   │   ├── MeshControls.tsx     # Slider de resolucion
-│   │   ├── PlotViewer.tsx       # Grafico 3D Plotly
+│   │   ├── PlotViewer.tsx       # Grafico 3D ECharts (lazy)
 │   │   ├── StatusBar.tsx        # Indicador de estado
 │   │   └── WorkspaceBar.tsx     # Barra de herramientas
 │   ├── lib/
@@ -110,7 +110,7 @@ ecuaciones-react/
 │   │   └── examples.ts          # Definiciones de ejemplos
 │   ├── store/
 │   │   └── index.ts             # Zustand store global
-│   ├── global.d.ts              # Shims de tipos (plotly, css)
+│   ├── global.d.ts              # Shims de tipos (echarts, echarts-gl, css)
 │   ├── App.tsx                  # Layout principal
 │   ├── main.tsx                 # Entry point
 │   └── index.css                # Estilos globales + Tailwind

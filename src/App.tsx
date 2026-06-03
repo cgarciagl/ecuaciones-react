@@ -16,23 +16,15 @@ import { Footer } from "./components/Footer";
 import { useStore } from "./store";
 
 const PlotViewer = lazy(() =>
-  import(/* webpackChunkName: "echarts" */ "./components/PlotViewer").then(
-    (m) => ({ default: m.PlotViewer })
-  )
+  import("./components/PlotViewer").then((m) => ({ default: m.PlotViewer }))
 );
 
 export default function App() {
-  const renderSurface = useStore((s) => s.renderSurface);
-
-  useEffect(() => {
-    renderSurface();
-  }, [renderSurface]);
-
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") useStore.getState().closeExamples();
     };
-    document.addEventListener("keydown", handleEscape);
+    document.addEventListener("keydown", handleEscape, { passive: true });
     return () => document.removeEventListener("keydown", handleEscape);
   }, []);
 

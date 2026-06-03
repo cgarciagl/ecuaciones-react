@@ -14,7 +14,6 @@ const COLORS: ReadonlyArray<{ name: ColorScale; gradient: string }> = [
 
 export function ColorPicker() {
   const colorScale = useStore((s) => s.colorScale);
-  const setColorScale = useStore((s) => s.setColorScale);
 
   return (
     <SectionPanel>
@@ -29,7 +28,7 @@ export function ColorPicker() {
           <button
             key={c.name}
             type="button"
-            onClick={() => setColorScale(c.name)}
+            onClick={() => useStore.getState().setColorScale(c.name)}
             className={`flex items-center gap-2.5 min-h-[40px] px-3 border-[1.5px] rounded-xl bg-[#fcfffc] text-ink-soft text-[0.78rem] font-bold cursor-pointer transition-all hover:-translate-y-px ${
               colorScale === c.name
                 ? "border-moss-600 bg-moss-600/10 shadow-[0_8px_20px_rgba(47,95,70,0.14)]"

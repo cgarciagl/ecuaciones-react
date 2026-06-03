@@ -31,6 +31,12 @@ const MATH_FUNCTIONS: Record<string, string> = {
 
 const ALLOWED_VARS: Record<string, boolean> = { x: true, y: true };
 const TOKEN_RE = /[a-zA-Z_]\w*|\d+\.?\d*|[+\-*/^(),]/g;
+const BINARY_OP_RE = /[+\-*/^]/;
+const NUM_START_RE = /^\d/;
+const IDENT_START_RE = /^[a-zA-Z_]/;
+const IDENT_RE = /^[a-zA-Z_]\w*$/;
+
+const FUNCTION_CACHE = new Map<string, MathFunction>();
 
 function tokenize(expr: string): string[] {
   return expr.match(TOKEN_RE) || [];
@@ -42,7 +48,7 @@ function fixUnaryOperators(tokens: string[]): string[] {
     const tok = tokens[i];
     if (tok === "-" || tok === "+") {
       const prev = i > 0 ? tokens[i - 1] : null;
-      const isUnary = prev === null || prev === "(" || /[+\-*/^]/.test(prev);
+      const isUnary = prev === null || prev === "(" || BINARY_OP_RE.test(prev);
       if (isUnary) {
         result.push(tok === "-" ? "-1" : "1");
         result.push("*");
@@ -97,11 +103,11 @@ function insertImplicitMul(tokens: string[]): string[] {
     const curr = tokens[i];
     if (i > 0) {
       const prev = tokens[i - 1];
-      const prevIsNumOrGroup = /^\d/.test(prev) || prev === ")";
-      const currIsIdentOrGroup = /^[a-zA-Z_]/.test(curr) || curr === "(";
+      const prevIsNumOrGroup = NUM_START_RE.test(prev) || prev === ")";
+      const currIsIdentOrGroup = IDENT_START_RE.test(curr) || curr === "(";
       if (prevIsNumOrGroup && currIsIdentOrGroup) {
         result.push("*");
-      } else if (/^[a-zA-Z_]/.test(prev) && /^\d/.test(curr)) {
+      } else if (IDENT_START_RE.test(prev) && NUM_START_RE.test(curr)) {
         result.push("*");
       }
     }
@@ -121,7 +127,7 @@ function mapTokens(tokens: string[]): string[] {
 function validateVars(mapped: string[]): void {
   for (const tok of mapped) {
     if (
-      /^[a-zA-Z_]\w*$/.test(tok) &&
+      IDENT_RE.test(tok) &&
       !ALLOWED_VARS[tok] &&
       !tok.startsWith("Math.")
     ) {
@@ -133,6 +139,9 @@ function validateVars(mapped: string[]): void {
 }
 
 export function buildMathFunction(expr: string): MathFunction {
+  const cached = FUNCTION_CACHE.get(expr);
+  if (cached) return cached;
+
   const tokens = tokenize(expr);
   const withoutUnary = fixUnaryOperators(tokens);
   const fixedExp = fixExponentiation(withoutUnary);
@@ -141,13 +150,17 @@ export function buildMathFunction(expr: string): MathFunction {
   validateVars(mapped);
   const code = mapped.join(" ");
 
+  let fn: MathFunction;
   try {
-    return new Function("x", "y", `return (${code})`) as MathFunction;
+    fn = new Function("x", "y", `return (${code})`) as MathFunction;
   } catch {
     throw new Error(
       "Error de sintaxis en la expresion. Revisa los parentesis y operadores."
     );
   }
+
+  FUNCTION_CACHE.set(expr, fn);
+  return fn;
 }
 
 export function linspace(start: number, end: number, n: number): number[] {

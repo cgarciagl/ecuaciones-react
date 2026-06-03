@@ -1,31 +1,31 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useSyncExternalStore } from "react";
 import { useStore } from "../store";
-import {
-  dispatchSurfaceAction,
-  ECHARTS_CONTAINER_ID,
-} from "../lib/surfaceEvents";
+import { ECHARTS_CONTAINER_ID } from "../lib/plotData";
 
 const WORKSPACE_BUTTON_CLASS =
   "w-[88px] min-h-[36px] border border-white/18 rounded-full bg-white/8 text-white font-mono text-[0.76rem] font-semibold cursor-pointer transition-all hover:border-ochre-400 hover:bg-ochre-400/16 hover:-translate-y-px active:translate-y-0";
 
+const subscribeFullscreen = (cb: () => void) => {
+  document.addEventListener("fullscreenchange", cb);
+  return () => document.removeEventListener("fullscreenchange", cb);
+};
+
+const getIsFullscreen = () => document.fullscreenElement !== null;
+
 export function WorkspaceBar() {
   const plotTitle = useStore((s) => s.plotTitle);
-  const [isFullscreen, setIsFullscreen] = useState(
-    () => document.fullscreenElement !== null
+  const isFullscreen = useSyncExternalStore(
+    subscribeFullscreen,
+    getIsFullscreen,
+    () => false
   );
 
-  useEffect(() => {
-    const handleChange = () => setIsFullscreen(document.fullscreenElement !== null);
-    document.addEventListener("fullscreenchange", handleChange);
-    return () => document.removeEventListener("fullscreenchange", handleChange);
-  }, []);
-
   const resetCamera = useCallback(() => {
-    dispatchSurfaceAction({ type: "resetCamera" });
+    useStore.getState().dispatchSurfaceAction("resetCamera");
   }, []);
 
   const downloadPng = useCallback(() => {
-    dispatchSurfaceAction({ type: "downloadPng" });
+    useStore.getState().dispatchSurfaceAction("downloadPng");
   }, []);
 
   const toggleFullscreen = useCallback(() => {

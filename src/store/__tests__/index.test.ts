@@ -25,9 +25,12 @@ describe("useStore - initial state", () => {
     expect(getState().surfaceMode).toBe("surface");
   });
 
-  it("starts with no plot data, ok status and no error", () => {
+  it("starts with the initial plot data computed eagerly, ok status and no error", () => {
     const s = getState();
-    expect(s.plotData).toBeNull();
+    expect(s.plotData).not.toBeNull();
+    expect(s.plotData?.x).toHaveLength(80);
+    expect(s.plotData?.y).toHaveLength(80);
+    expect(s.plotData?.z).toHaveLength(80);
     expect(s.status.type).toBe("ok");
     expect(s.error).toBeNull();
   });
@@ -153,7 +156,6 @@ describe("useStore - renderSurface validation", () => {
     getState().setEquation("   ");
     getState().renderSurface();
     const s = getState();
-    expect(s.plotData).toBeNull();
     expect(s.error).toMatch(/Ingresa una ecuacion/);
     expect(s.status.type).toBe("error");
   });
@@ -162,7 +164,6 @@ describe("useStore - renderSurface validation", () => {
     getState().setEquation("foo + x");
     getState().renderSurface();
     const s = getState();
-    expect(s.plotData).toBeNull();
     expect(s.error).toMatch(/Variable no permitida/);
     expect(s.status.type).toBe("error");
   });
@@ -171,7 +172,6 @@ describe("useStore - renderSurface validation", () => {
     getState().setEquation("sin(x");
     getState().renderSurface();
     const s = getState();
-    expect(s.plotData).toBeNull();
     expect(s.error).toMatch(/sintaxis/i);
     expect(s.status.type).toBe("error");
   });
@@ -207,7 +207,7 @@ describe("useStore - loadExample and resetDefaults", () => {
     getState().resetDefaults();
     const s = getState();
     expect(s.equation).toBe(EXAMPLES[0].eq);
-    expect(s.resolution).toBe(60);
+    expect(s.resolution).toBe(80);
     expect(s.colorScale).toBe("Viridis");
     expect(s.surfaceMode).toBe("surface");
     expect(s.xMin).toBe(-3.14);

@@ -7,7 +7,7 @@ Guidance for agentic coding agents working in this repository (`ecuaciones-react
 - React 19 + TypeScript (strict) + Zustand 5
 - Rsbuild (Rspack) for bundling, dev server on port 3000
 - Tailwind CSS v4 (via PostCSS) — utility classes only
-- Plotly.js (`plotly.js-dist-min`) for 3D surface rendering
+- ECharts (`echarts` + `echarts-gl`) for 3D surface rendering
 - Vitest + Testing Library + happy-dom for tests
 - pnpm 9.15.9 as package manager (Node >= 18, ESM only)
 
@@ -51,12 +51,12 @@ The default `pnpm test` runs once (`vitest run`). Add `-t <pattern>` to narrow b
 src/
   components/        UI components (one per file, PascalCase)
     __tests__/       Co-located Vitest + RTL tests
-  lib/               Pure logic (mathParser.ts, examples.ts)
+  lib/               Pure logic (mathParser.ts, examples.ts, plotData.ts)
     __tests__/
   store/             Zustand store (single file: index.ts)
     __tests__/
   test/setup.ts      Vitest setup (jest-dom matchers + cleanup)
-  global.d.ts        Type shims for plotly.js modules and CSS
+  global.d.ts        Type shims for echarts/echarts-gl modules and CSS
   App.tsx            Root layout component
   main.tsx           Entry point, mounts <App /> into #root
   index.css          Tailwind entry + custom utility classes
@@ -82,7 +82,7 @@ The build asset path prefix is `/ecuaciones-react/` (see `rsbuild.config.mjs`).
 - Prefer `type` aliases for unions and shapes (see `AppState`, `Status`, `PlotData` in `src/store/index.ts`). `interface` is fine for plain object shapes when extending.
 - Export domain types alongside their store/component (`export type ColorScale = ...`).
 - Type-only file extensions: avoid `.ts/.tsx` in imports (`allowImportingTsExtensions: false`).
-- Casts to `any` are tolerated only at plotly boundaries (see `PlotViewer.tsx`, `WorkspaceBar.tsx`) and are explicitly `// eslint-disable-next-line @typescript-eslint/no-explicit-any` annotated.
+- Casts to `any` are tolerated only at the ECharts boundary (see `lib/plotData.ts`) and are explicitly `// eslint-disable-next-line @typescript-eslint/no-explicit-any` annotated.
 
 ## Naming conventions
 
@@ -117,7 +117,7 @@ The build asset path prefix is `/ecuaciones-react/` (see `rsbuild.config.mjs`).
 
 - Pure functions, no React or store imports.
 - Public API: `buildMathFunction(expr)`, `linspace(start, end, n)`, `generateZ(fn, xArr, yArr)`, plus the `MathFunction` and `ZMatrix` types.
-- `generateZ` substitutes `null` for non-finite values (e.g. `log` of a negative); the store/Plotly layer handles them.
+- `generateZ` substitutes `null` for non-finite values (e.g. `log` of a negative); the store/ECharts layer handles them.
 - Validation messages thrown from `buildMathFunction` are surfaced verbatim by the store; the test suite asserts on Spanish phrases like `Variable no permitida` and `sintaxis`. Keep those phrases stable when editing validation.
 
 ## Error handling

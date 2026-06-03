@@ -90,15 +90,18 @@ const COLOR_SCALES: Record<ColorScale, string[]> = {
 
 type Triple = [number, number, number];
 
+export const ECHARTS_CONTAINER_ID = "echarts-surface";
+
 function buildTriples(plotData: PlotData): Triple[] {
   const { x, y, z } = plotData;
   const data: Triple[] = [];
   for (let j = 0; j < y.length; j++) {
+    const yj = y[j];
     const row = z[j];
     for (let i = 0; i < x.length; i++) {
       const v = row[i];
       if (v !== null && Number.isFinite(v)) {
-        data.push([x[i], y[j], v]);
+        data.push([x[i], yj, v]);
       }
     }
   }
@@ -115,11 +118,13 @@ function buildWireframeSeries(plotData: PlotData) {
   const lineStyle = { width: 0.6, color: "auto" };
 
   for (let j = 0; j < y.length; j++) {
+    const yj = y[j];
+    const row = z[j];
     const coords: Triple[] = [];
     for (let i = 0; i < x.length; i++) {
-      const v = z[j][i];
+      const v = row[i];
       if (v !== null && Number.isFinite(v)) {
-        coords.push([x[i], y[j], v]);
+        coords.push([x[i], yj, v]);
       }
     }
     if (coords.length >= 2) {
@@ -128,11 +133,12 @@ function buildWireframeSeries(plotData: PlotData) {
   }
 
   for (let i = 0; i < x.length; i++) {
+    const xi = x[i];
     const coords: Triple[] = [];
     for (let j = 0; j < y.length; j++) {
       const v = z[j][i];
       if (v !== null && Number.isFinite(v)) {
-        coords.push([x[i], y[j], v]);
+        coords.push([xi, y[j], v]);
       }
     }
     if (coords.length >= 2) {
