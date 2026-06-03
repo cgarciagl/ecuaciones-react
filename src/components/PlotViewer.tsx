@@ -73,7 +73,6 @@ export function PlotViewer() {
     } else {
       const url = chart.getDataURL({
         type: "png",
-        pixelRatio: 2,
         backgroundColor: "#13180f",
       });
       const a = document.createElement("a");

@@ -1,5 +1,5 @@
 const UPDATE_AVAILABLE_EVENT = "pwa:update-available";
-const APPLY_UPDATE_EVENT = "pwa:apply-update";
+const RELOAD_DELAY_MS = 1500;
 
 function dispatchUpdateAvailable(): void {
   window.dispatchEvent(new CustomEvent(UPDATE_AVAILABLE_EVENT));
@@ -17,17 +17,21 @@ export function registerSW(): void {
   if (!("serviceWorker" in navigator)) return;
   if (!import.meta.env.PROD) return;
 
-  let updateApplied = false;
+  let updatePending = false;
+
+  const scheduleUpdate = (): void => {
+    if (updatePending) return;
+    updatePending = true;
+    dispatchUpdateAvailable();
+    setTimeout(() => {
+      void postSkipWaiting();
+    }, RELOAD_DELAY_MS);
+  };
 
   navigator.serviceWorker.addEventListener("controllerchange", () => {
-    if (updateApplied) {
+    if (updatePending) {
       window.location.reload();
     }
-  });
-
-  window.addEventListener(APPLY_UPDATE_EVENT, () => {
-    updateApplied = true;
-    void postSkipWaiting();
   });
 
   window.addEventListener("load", () => {
@@ -35,7 +39,7 @@ export function registerSW(): void {
       .register("./sw.js")
       .then((reg) => {
         if (reg.waiting && navigator.serviceWorker.controller) {
-          dispatchUpdateAvailable();
+          scheduleUpdate();
         }
         reg.addEventListener("updatefound", () => {
           const sw = reg.installing;
@@ -45,7 +49,7 @@ export function registerSW(): void {
               sw.state === "installed" &&
               navigator.serviceWorker.controller
             ) {
-              dispatchUpdateAvailable();
+              scheduleUpdate();
             }
           });
         });

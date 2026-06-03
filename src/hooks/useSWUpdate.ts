@@ -1,9 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const UPDATE_AVAILABLE_EVENT = "pwa:update-available";
-const APPLY_UPDATE_EVENT = "pwa:apply-update";
 
-export function useSWUpdate(): { available: boolean; applyUpdate: () => void } {
+export function useSWUpdate(): { available: boolean } {
   const [available, setAvailable] = useState(false);
 
   useEffect(() => {
@@ -14,9 +13,5 @@ export function useSWUpdate(): { available: boolean; applyUpdate: () => void } {
     };
   }, []);
 
-  const applyUpdate = useCallback(() => {
-    window.dispatchEvent(new CustomEvent(APPLY_UPDATE_EVENT));
-  }, []);
-
-  return { available, applyUpdate };
+  return { available };
 }

@@ -17,7 +17,6 @@ interface BeforeInstallPromptEvent extends Event {
 interface WindowEventMap {
   beforeinstallprompt: BeforeInstallPromptEvent;
   "pwa:update-available": CustomEvent<void>;
-  "pwa:apply-update": CustomEvent<void>;
 }
 
 interface ImportMetaEnv {
