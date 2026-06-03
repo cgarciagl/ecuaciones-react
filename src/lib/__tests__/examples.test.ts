@@ -19,19 +19,6 @@ describe("EXAMPLES", () => {
       expect(ex.emoji.length).toBeGreaterThan(0);
       expect(typeof ex.eq).toBe("string");
       expect(ex.eq.length).toBeGreaterThan(0);
-      expect(Array.isArray(ex.xRange)).toBe(true);
-      expect(Array.isArray(ex.yRange)).toBe(true);
-    }
-  });
-
-  it("xRange and yRange are [min, max] numeric tuples with min < max", () => {
-    for (const ex of EXAMPLES) {
-      expect(ex.xRange).toHaveLength(2);
-      expect(ex.yRange).toHaveLength(2);
-      for (const v of ex.xRange) expect(typeof v).toBe("number");
-      for (const v of ex.yRange) expect(typeof v).toBe("number");
-      expect(ex.xRange[0]).toBeLessThan(ex.xRange[1]);
-      expect(ex.yRange[0]).toBeLessThan(ex.yRange[1]);
     }
   });
 

@@ -1,5 +1,7 @@
 import type { SurfaceMode } from "../store";
 import { useStore } from "../store";
+import { SectionPanel } from "./SectionPanel";
+import { SectionHeader } from "./SectionHeader";
 
 const MODES: ReadonlyArray<{ id: SurfaceMode; label: string }> = [
   { id: "surface", label: "Malla" },
@@ -16,22 +18,14 @@ export function MeshControls() {
   const pointCount = (resolution * resolution).toLocaleString("es-MX");
 
   return (
-    <section className="section-panel border border-line/80 rounded-[14px] bg-white/80 shadow-[0_10px_26px_rgba(20,30,24,0.06)]">
-      <div className="flex items-start justify-between gap-3 mb-3.5">
-        <div>
-          <span className="block text-rust-500 font-mono text-[0.64rem] font-semibold tracking-[0.16em]">
-            03
-          </span>
-          <h2 className="mt-0.5 text-ink text-[1.07rem] font-extrabold">
-            Malla
-          </h2>
-        </div>
+    <SectionPanel>
+      <SectionHeader number="03" title="Malla">
         <span className="text-muted font-mono text-[0.68rem] leading-relaxed">
           {pointCount} puntos
         </span>
-      </div>
+      </SectionHeader>
 
-      <div className="grid gap-3 mb-3">
+      <div className="grid gap-3 mb-7">
         <label className="text-muted text-[0.72rem] font-bold tracking-[0.08em] uppercase">
           Estilo
         </label>
@@ -39,6 +33,7 @@ export function MeshControls() {
           {MODES.map((m) => (
             <button
               key={m.id}
+              type="button"
               onClick={() => setSurfaceMode(m.id)}
               className={`flex-1 py-1.5 rounded-lg text-[0.72rem] font-bold tracking-[0.04em] transition-all border ${
                 surfaceMode === m.id
@@ -52,7 +47,7 @@ export function MeshControls() {
         </div>
       </div>
 
-      <div className="grid gap-3 mt-3">
+      <div className="grid gap-3 mt-7">
         <div className="flex items-center justify-between gap-3">
           <label className="text-muted text-[0.72rem] font-bold tracking-[0.08em] uppercase">
             Resolucion
@@ -70,6 +65,6 @@ export function MeshControls() {
           onChange={(e) => setResolution(Number(e.target.value))}
         />
       </div>
-    </section>
+    </SectionPanel>
   );
 }

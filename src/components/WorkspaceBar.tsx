@@ -1,14 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
 import { useStore } from "../store";
-import { ECHARTS_CONTAINER_ID } from "./PlotViewer";
+import {
+  dispatchSurfaceAction,
+  ECHARTS_CONTAINER_ID,
+} from "../lib/surfaceEvents";
 
-type SurfaceAction = { type: "resetCamera" | "downloadPng" };
-
-function dispatchSurfaceAction(detail: SurfaceAction) {
-  window.dispatchEvent(
-    new CustomEvent<SurfaceAction>("echarts-surface:action", { detail })
-  );
-}
+const WORKSPACE_BUTTON_CLASS =
+  "w-[88px] min-h-[36px] border border-white/18 rounded-full bg-white/8 text-white font-mono text-[0.76rem] font-semibold cursor-pointer transition-all hover:border-ochre-400 hover:bg-ochre-400/16 hover:-translate-y-px active:translate-y-0";
 
 export function WorkspaceBar() {
   const plotTitle = useStore((s) => s.plotTitle);
@@ -40,6 +38,12 @@ export function WorkspaceBar() {
     }
   }, []);
 
+  const actions = [
+    { key: "camera", label: "Camara", onClick: resetCamera },
+    { key: "png", label: "PNG", onClick: downloadPng },
+    { key: "fullscreen", label: isFullscreen ? "Salir" : "Pantalla", onClick: toggleFullscreen },
+  ];
+
   return (
     <div className="section-panel flex items-center justify-between gap-3.5 min-h-[78px] px-[23px] py-[19px] border border-[#2a3328] rounded-[16px] bg-[linear-gradient(120deg,rgba(31,35,29,0.97),rgba(19,22,16,0.97))] text-white shadow-[0_24px_70px_rgba(16,20,14,0.34)]">
       <div className="min-w-0">
@@ -51,27 +55,16 @@ export function WorkspaceBar() {
         </h2>
       </div>
       <div className="flex flex-wrap gap-2 shrink-0">
-        <button
-          type="button"
-          onClick={resetCamera}
-          className="w-[88px] min-h-[36px] border border-white/18 rounded-full bg-white/8 text-white font-mono text-[0.76rem] font-semibold cursor-pointer transition-all hover:border-ochre-400 hover:bg-ochre-400/16 hover:-translate-y-px active:translate-y-0"
-        >
-          Camara
-        </button>
-        <button
-          type="button"
-          onClick={downloadPng}
-          className="w-[88px] min-h-[36px] border border-white/18 rounded-full bg-white/8 text-white font-mono text-[0.76rem] font-semibold cursor-pointer transition-all hover:border-ochre-400 hover:bg-ochre-400/16 hover:-translate-y-px active:translate-y-0"
-        >
-          PNG
-        </button>
-        <button
-          type="button"
-          onClick={toggleFullscreen}
-          className="w-[88px] min-h-[36px] border border-white/18 rounded-full bg-white/8 text-white font-mono text-[0.76rem] font-semibold cursor-pointer transition-all hover:border-ochre-400 hover:bg-ochre-400/16 hover:-translate-y-px active:translate-y-0"
-        >
-          {isFullscreen ? "Salir" : "Pantalla"}
-        </button>
+        {actions.map((a) => (
+          <button
+            key={a.key}
+            type="button"
+            onClick={a.onClick}
+            className={WORKSPACE_BUTTON_CLASS}
+          >
+            {a.label}
+          </button>
+        ))}
       </div>
     </div>
   );

@@ -10,6 +10,10 @@ import {
   buildEChartsOption,
   INITIAL_VIEW_CONTROL,
 } from "../lib/plotData";
+import {
+  ECHARTS_CONTAINER_ID,
+  subscribeSurfaceActions,
+} from "../lib/surfaceEvents";
 
 echarts.use([
   SurfaceChart,
@@ -20,8 +24,6 @@ echarts.use([
   VisualMapComponent,
   CanvasRenderer,
 ]);
-
-export const ECHARTS_CONTAINER_ID = "echarts-surface";
 
 export function PlotViewer() {
   const plotData = useStore((s) => s.plotData);
@@ -59,18 +61,15 @@ export function PlotViewer() {
   }, [option]);
 
   useEffect(() => {
-    const handler = (e: Event) => {
-      const detail = (e as CustomEvent).detail as
-        | { type: "resetCamera" | "downloadPng" }
-        | undefined;
+    return subscribeSurfaceActions((action) => {
       const chart = chartRef.current;
       if (!chart) return;
-      if (detail?.type === "resetCamera") {
+      if (action.type === "resetCamera") {
         chart.setOption(
           { grid3D: { viewControl: { ...INITIAL_VIEW_CONTROL } } },
           false
         );
-      } else if (detail?.type === "downloadPng") {
+      } else {
         const url = chart.getDataURL({
           type: "png",
           pixelRatio: 2,
@@ -81,9 +80,7 @@ export function PlotViewer() {
         a.download = "superficie-3d.png";
         a.click();
       }
-    };
-    window.addEventListener("echarts-surface:action", handler);
-    return () => window.removeEventListener("echarts-surface:action", handler);
+    });
   }, []);
 
   return (

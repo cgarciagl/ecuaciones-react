@@ -1,6 +1,8 @@
 import { useRef } from "react";
-import type { ChangeEvent, FocusEvent } from "react";
+import type { ChangeEvent } from "react";
 import { useStore } from "../store";
+import { SectionPanel } from "./SectionPanel";
+import { SectionHeader } from "./SectionHeader";
 
 const PRESETS = [
   { label: "Compacto", value: "-5,5,-5,5" },
@@ -37,7 +39,7 @@ export function DomainControls() {
     setDomain(next.xMin, next.xMax, next.yMin, next.yMax);
   };
 
-  const handleBlur = (_e: FocusEvent<HTMLInputElement>) => {
+  const handleBlur = () => {
     if (changedRef.current) {
       changedRef.current = false;
       renderSurface();
@@ -45,20 +47,12 @@ export function DomainControls() {
   };
 
   return (
-    <section className="section-panel border border-line/80 rounded-[14px] bg-white/80 shadow-[0_10px_26px_rgba(20,30,24,0.06)]">
-      <div className="flex items-start justify-between gap-3 mb-3.5">
-        <div>
-          <span className="block text-rust-500 font-mono text-[0.64rem] font-semibold tracking-[0.16em]">
-            02
-          </span>
-          <h2 className="mt-0.5 text-ink text-[1.07rem] font-extrabold">
-            Dominio
-          </h2>
-        </div>
+    <SectionPanel>
+      <SectionHeader number="02" title="Dominio">
         <span className="max-w-[172px] text-muted font-mono text-[0.68rem] leading-relaxed text-right">
           x {xMin}..{xMax} / y {yMin}..{yMax}
         </span>
-      </div>
+      </SectionHeader>
 
       <div className="grid grid-cols-2 gap-3">
         {FIELDS.map(([field, label]) => (
@@ -93,6 +87,6 @@ export function DomainControls() {
           </button>
         ))}
       </div>
-    </section>
+    </SectionPanel>
   );
 }

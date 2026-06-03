@@ -112,27 +112,18 @@ function buildWireframeSeries(plotData: PlotData) {
     data: Triple[];
     lineStyle: { width: number; color: string };
   }> = [];
-  const collectSegment = (coords: Triple[]): Triple[] | null => {
-    if (coords.length < 2) return null;
-    return coords;
-  };
+  const lineStyle = { width: 0.6, color: "auto" };
 
   for (let j = 0; j < y.length; j++) {
-    const row = z[j];
     const coords: Triple[] = [];
     for (let i = 0; i < x.length; i++) {
-      const v = row[i];
+      const v = z[j][i];
       if (v !== null && Number.isFinite(v)) {
         coords.push([x[i], y[j], v]);
       }
     }
-    const segment = collectSegment(coords);
-    if (segment) {
-      series.push({
-        type: "line3D",
-        data: segment,
-        lineStyle: { width: 0.6, color: "auto" },
-      });
+    if (coords.length >= 2) {
+      series.push({ type: "line3D", data: coords, lineStyle });
     }
   }
 
@@ -144,13 +135,8 @@ function buildWireframeSeries(plotData: PlotData) {
         coords.push([x[i], y[j], v]);
       }
     }
-    const segment = collectSegment(coords);
-    if (segment) {
-      series.push({
-        type: "line3D",
-        data: segment,
-        lineStyle: { width: 0.6, color: "auto" },
-      });
+    if (coords.length >= 2) {
+      series.push({ type: "line3D", data: coords, lineStyle });
     }
   }
 
