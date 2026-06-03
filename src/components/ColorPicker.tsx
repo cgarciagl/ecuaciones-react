@@ -29,9 +29,9 @@ export function ColorPicker() {
             key={c.name}
             type="button"
             onClick={() => useStore.getState().setColorScale(c.name)}
-            className={`flex items-center gap-2.5 min-h-[40px] px-3 border-[1.5px] rounded-xl bg-[#fcfffc] text-ink-soft text-[0.78rem] font-bold cursor-pointer transition-all hover:-translate-y-px ${
+            className={`flex items-center gap-2.5 min-h-[40px] px-3 border-[1.5px] rounded-xl bg-[#fcfffc] text-ink-soft text-[0.78rem] font-bold cursor-pointer transition-all hover:-translate-y-px dark:bg-[#1e261e] ${
               colorScale === c.name
-                ? "border-moss-600 bg-moss-600/10 shadow-[0_8px_20px_rgba(47,95,70,0.14)]"
+                ? "border-moss-600 bg-moss-600/10 shadow-[0_8px_20px_rgba(47,95,70,0.14)] dark:border-moss-400 dark:bg-moss-500/15 dark:shadow-[0_8px_20px_rgba(47,95,70,0.28)]"
                 : "border-line"
             }`}
           >

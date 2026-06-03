@@ -47,11 +47,11 @@ export function MeshControls() {
               key={m.id}
               type="button"
               onClick={() => handleMode(m.id)}
-              className={`flex-1 py-1.5 rounded-lg text-[0.72rem] font-bold tracking-[0.04em] transition-all border ${
-                surfaceMode === m.id
-                  ? "bg-ink text-white shadow-sm border-ink"
-                  : "bg-white/40 border-line/50 text-ink-soft/70 hover:bg-white/80 hover:border-line hover:text-ink"
-              }`}
+            className={`flex-1 py-1.5 rounded-lg text-[0.72rem] font-bold tracking-[0.04em] transition-all border ${
+              surfaceMode === m.id
+                ? "bg-ink text-white shadow-sm border-ink"
+                : "bg-white/40 border-line/50 text-ink-soft/70 hover:bg-white/80 hover:border-line hover:text-ink dark:bg-[#1e261e]/60 dark:border-line/60 dark:text-ink-soft/70 dark:hover:bg-[#1e261e] dark:hover:border-line-strong dark:hover:text-ink"
+            }`}
             >
               {m.label}
             </button>
@@ -64,7 +64,7 @@ export function MeshControls() {
           <label className="text-muted text-[0.72rem] font-bold tracking-[0.08em] uppercase">
             Resolucion
           </label>
-          <span className="min-w-[48px] px-2.5 py-1 rounded-full bg-ochre-100 text-ochre-700 font-mono text-[0.74rem] font-bold text-center">
+          <span className="min-w-[48px] px-2.5 py-1 rounded-full bg-ochre-100 text-ochre-700 font-mono text-[0.74rem] font-bold text-center dark:bg-ochre-500/20 dark:text-ochre-300">
             {resolution}
           </span>
         </div>

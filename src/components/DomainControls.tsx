@@ -65,7 +65,7 @@ export function DomainControls() {
                 handleChange(field, e.target.value)
               }
               onBlur={handleBlur}
-              className="w-full min-h-[44px] py-2 px-3 border border-line rounded-xl outline-none bg-[#fcfffc] text-ink font-mono text-[0.84rem] transition-all focus:border-moss-600 focus:shadow-[0_0_0_3px_rgba(47,95,70,0.12)]"
+              className="w-full min-h-[44px] py-2 px-3 border border-line rounded-xl outline-none bg-[#fcfffc] text-ink font-mono text-[0.84rem] transition-all focus:border-moss-600 focus:shadow-[0_0_0_3px_rgba(47,95,70,0.12)] dark:bg-[#1e261e] dark:focus:border-moss-400 dark:focus:shadow-[0_0_0_3px_rgba(47,95,70,0.28)]"
             />
           </div>
         ))}

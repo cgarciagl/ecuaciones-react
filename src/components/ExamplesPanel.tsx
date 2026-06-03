@@ -57,7 +57,7 @@ export function ExamplesSheet() {
           <button
             type="button"
             onClick={() => useStore.getState().closeExamples()}
-            className="min-h-[34px] px-3 border border-line rounded-full bg-white text-ink-soft text-[0.78rem] font-bold cursor-pointer"
+            className="min-h-[34px] px-3 border border-line rounded-full bg-white text-ink-soft text-[0.78rem] font-bold cursor-pointer hover:border-moss-500 hover:text-ink transition-colors dark:bg-[#1a201a]"
           >
             Cerrar
           </button>

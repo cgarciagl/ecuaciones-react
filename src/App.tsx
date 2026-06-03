@@ -34,7 +34,7 @@ export default function App() {
     <div className="relative z-[1] grid h-screen min-h-0 p-5 gap-4 grid-cols-[minmax(350px,420px)_minmax(0,1fr)] grid-rows-[auto_minmax(0,1fr)_auto] max-[980px]:h-auto max-[980px]:min-h-screen max-[980px]:p-4 max-[980px]:gap-3 max-[980px]:grid-cols-1 max-[980px]:grid-rows-[auto_minmax(560px,68vh)_auto_auto] max-[640px]:grid-rows-[auto_minmax(520px,calc(100svh-64px))_auto_auto]">
       <Header />
 
-      <aside className="row-[2/4] flex flex-col gap-4 min-h-0 py-4 pl-5 pr-4 overflow-y-auto border border-line/80 rounded-[18px] bg-[#f8fcf8]/90 shadow-[0_28px_70px_rgba(23,35,28,0.18)] backdrop-blur-xl animate-[rise-in_0.34s_ease-out] sidebar-scroll max-[980px]:row-[3] max-[980px]:grid max-[980px]:grid-cols-2 max-[980px]:overflow-visible max-[980px]:rounded-[20px] max-[980px]:bg-[#f8fcf8] max-[980px]:py-5 max-[980px]:pl-5 max-[980px]:pr-4 max-[980px]:shadow-[0_16px_40px_rgba(23,35,28,0.14)] max-[640px]:grid-cols-1">
+      <aside className="row-[2/4] flex flex-col gap-4 min-h-0 py-4 pl-5 pr-4 overflow-y-auto border border-line/80 rounded-[18px] bg-[#f8fcf8]/90 shadow-[0_28px_70px_rgba(23,35,28,0.18)] backdrop-blur-xl animate-[rise-in_0.34s_ease-out] sidebar-scroll max-[980px]:row-[3] max-[980px]:grid max-[980px]:grid-cols-2 max-[980px]:overflow-visible max-[980px]:rounded-[20px] max-[980px]:bg-[#f8fcf8] max-[980px]:py-5 max-[980px]:pl-5 max-[980px]:pr-4 max-[980px]:shadow-[0_16px_40px_rgba(23,35,28,0.14)] max-[640px]:grid-cols-1 dark:bg-[#1a201a]/90 dark:shadow-[0_28px_70px_rgba(0,0,0,0.48)] dark:max-[980px]:bg-[#1a201a] dark:max-[980px]:shadow-[0_16px_40px_rgba(0,0,0,0.4)]">
         <div className="max-[980px]:col-span-full max-[640px]:col-span-1">
           <EquationInput />
         </div>

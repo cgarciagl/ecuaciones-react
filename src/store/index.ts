@@ -9,6 +9,39 @@ import {
 
 const DEFAULT_RANGE: [number, number] = [-3.14, 3.14];
 const INITIAL_RESOLUTION = 80;
+const THEME_STORAGE_KEY = "app-theme";
+
+export type Theme = "light" | "dark";
+
+function readTheme(): Theme {
+  if (typeof window === "undefined") return "light";
+  try {
+    const v = window.localStorage.getItem(THEME_STORAGE_KEY);
+    if (v === "light" || v === "dark") return v;
+  } catch {
+    /* ignore */
+  }
+  return "light";
+}
+
+function writeTheme(theme: Theme): void {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(THEME_STORAGE_KEY, theme);
+  } catch {
+    /* ignore */
+  }
+}
+
+function applyTheme(theme: Theme): void {
+  if (typeof document === "undefined") return;
+  const root = document.documentElement;
+  root.classList.toggle("dark", theme === "dark");
+  root.style.colorScheme = theme;
+}
+
+const initialTheme: Theme = readTheme();
+applyTheme(initialTheme);
 
 export type ColorScale =
   | "Viridis"
@@ -70,6 +103,9 @@ export type AppState = {
 
   surfaceAction: SurfaceActionState;
   dispatchSurfaceAction: (type: SurfaceAction["type"]) => void;
+
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
 
   renderSurface: () => void;
   loadExample: (index: number) => void;
@@ -200,6 +236,13 @@ export const useStore = create<AppState>()((set, get) => {
       set((s) => ({
         surfaceAction: { action: { type }, nonce: s.surfaceAction.nonce + 1 },
       }));
+    },
+
+    theme: initialTheme,
+    setTheme: (theme) => {
+      writeTheme(theme);
+      applyTheme(theme);
+      set({ theme });
     },
 
     renderSurface: () => {

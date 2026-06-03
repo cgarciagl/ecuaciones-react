@@ -216,3 +216,30 @@ describe("useStore - loadExample and resetDefaults", () => {
     expect(s.yMax).toBe(3.14);
   });
 });
+
+describe("useStore - theme", () => {
+  beforeEach(() => {
+    window.localStorage.clear();
+    document.documentElement.classList.remove("dark");
+    document.documentElement.style.colorScheme = "";
+    resetStore();
+  });
+
+  it("defaults to light when nothing is persisted", () => {
+    expect(getState().theme).toBe("light");
+    expect(document.documentElement.classList.contains("dark")).toBe(false);
+  });
+
+  it("setTheme updates state, persists and toggles the dark class", () => {
+    getState().setTheme("dark");
+    expect(getState().theme).toBe("dark");
+    expect(document.documentElement.classList.contains("dark")).toBe(true);
+    expect(document.documentElement.style.colorScheme).toBe("dark");
+    expect(window.localStorage.getItem("app-theme")).toBe("dark");
+
+    getState().setTheme("light");
+    expect(getState().theme).toBe("light");
+    expect(document.documentElement.classList.contains("dark")).toBe(false);
+    expect(document.documentElement.style.colorScheme).toBe("light");
+  });
+});

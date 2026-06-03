@@ -1,5 +1,5 @@
-const CACHE_NAME = "superficie3d-v5";
-const ASSET_CACHE = "superficie3d-assets-v5";
+const CACHE_NAME = "superficie3d-v5.5";
+const ASSET_CACHE = "superficie3d-assets-v5.5";
 const APP_SHELL = [
   "./",
   "manifest.webmanifest",

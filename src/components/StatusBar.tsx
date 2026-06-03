@@ -4,7 +4,7 @@ export function StatusBar() {
   const status = useStore((s) => s.status);
 
   return (
-    <div className="flex items-center section-panel gap-2.5 min-h-[45px] px-[21px] border border-line/80 rounded-[14px] bg-white/82 text-ink-soft font-mono text-[0.76rem] shadow-[0_10px_30px_rgba(20,30,24,0.08)]">
+    <div className="flex items-center section-panel gap-2.5 min-h-[45px] px-[21px] border border-line/80 rounded-[14px] bg-white/82 text-ink-soft font-mono text-[0.76rem] shadow-[0_10px_30px_rgba(20,30,24,0.08)] dark:bg-[#1a201a]/82 dark:shadow-[0_10px_30px_rgba(0,0,0,0.32)]">
       <span
         className={`w-2 h-2 shrink-0 rounded-full ${
           status.type === "error"
