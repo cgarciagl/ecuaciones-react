@@ -1,5 +1,5 @@
-const CACHE_NAME = "superficie3d-v2";
-const ASSET_CACHE = "superficie3d-assets-v2";
+const CACHE_NAME = "superficie3d-v3";
+const ASSET_CACHE = "superficie3d-assets-v3";
 const APP_SHELL = [
   "./",
   "manifest.webmanifest",
@@ -10,19 +10,21 @@ const APP_SHELL = [
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL))
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)),
   );
 });
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(
-        keys
-          .filter((key) => key !== CACHE_NAME && key !== ASSET_CACHE)
-          .map((key) => caches.delete(key))
-      )
-    )
+    caches
+      .keys()
+      .then((keys) =>
+        Promise.all(
+          keys
+            .filter((key) => key !== CACHE_NAME && key !== ASSET_CACHE)
+            .map((key) => caches.delete(key)),
+        ),
+      ),
   );
   self.clients.claim();
 });
@@ -50,10 +52,8 @@ self.addEventListener("fetch", (event) => {
           return response;
         })
         .catch(() =>
-          caches
-            .match(request)
-            .then((cached) => cached || caches.match("./"))
-        )
+          caches.match(request).then((cached) => cached || caches.match("./")),
+        ),
     );
     return;
   }
@@ -63,15 +63,17 @@ self.addEventListener("fetch", (event) => {
       if (cached) return cached;
       return fetch(request)
         .then((response) => {
-          if (response && response.status === 200 && response.type === "basic") {
+          if (
+            response &&
+            response.status === 200 &&
+            response.type === "basic"
+          ) {
             const copy = response.clone();
-            caches
-              .open(ASSET_CACHE)
-              .then((cache) => cache.put(request, copy));
+            caches.open(ASSET_CACHE).then((cache) => cache.put(request, copy));
           }
           return response;
         })
         .catch(() => caches.match("./"));
-    })
+    }),
   );
 });
