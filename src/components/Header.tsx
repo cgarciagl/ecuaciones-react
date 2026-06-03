@@ -9,7 +9,7 @@ export function Header() {
         </div>
         <div>
           <p className="text-muted text-[0.72rem] font-bold tracking-[0.14em] uppercase leading-none">
-            Laboratorio matematico Virtual
+            Laboratorio matematico V2
           </p>
           <h1 className="mt-1 text-ink font-extrabold leading-none text-[clamp(1.45rem,2.8vw,2rem)]">
             Superficie<span className="text-rust-500">3D</span>
