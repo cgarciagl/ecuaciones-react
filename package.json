@@ -8,6 +8,7 @@
     "dev": "rsbuild dev",
     "build": "rsbuild build",
     "preview": "rsbuild preview",
+    "icons": "node scripts/generate-icons.mjs",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest"
@@ -29,6 +30,7 @@
     "@types/react": "^19.2.16",
     "@types/react-dom": "^19.2.3",
     "happy-dom": "^20.9.0",
+    "sharp": "^0.34.1",
     "tailwindcss": "^4.1.7",
     "typescript": "^6.0.3",
     "vitest": "^3.2.6"

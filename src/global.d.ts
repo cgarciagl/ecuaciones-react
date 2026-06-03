@@ -1,5 +1,32 @@
 declare module "*.css";
 
+declare module "*.webmanifest" {
+  const value: string;
+  export default value;
+}
+
+interface BeforeInstallPromptEvent extends Event {
+  readonly platforms: string[];
+  readonly userChoice: Promise<{
+    outcome: "accepted" | "dismissed";
+    platform: string;
+  }>;
+  prompt(): Promise<void>;
+}
+
+interface WindowEventMap {
+  beforeinstallprompt: BeforeInstallPromptEvent;
+}
+
+interface ImportMetaEnv {
+  readonly PROD: boolean;
+  readonly DEV: boolean;
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}
+
 declare module "echarts-gl/charts" {
   import type { ComponentOption } from "echarts";
   export const SurfaceChart: ComponentOption;

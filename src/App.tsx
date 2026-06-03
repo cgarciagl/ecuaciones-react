@@ -13,6 +13,7 @@ import {
 import { WorkspaceBar } from "./components/WorkspaceBar";
 import { StatusBar } from "./components/StatusBar";
 import { Footer } from "./components/Footer";
+import { InstallPrompt } from "./components/InstallPrompt";
 import { useStore } from "./store";
 
 const PlotViewer = lazy(() =>
@@ -65,6 +66,7 @@ export default function App() {
 
       <FloatingExamplesButton />
       <ExamplesSheet />
+      <InstallPrompt />
     </div>
   );
 }

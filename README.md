@@ -35,6 +35,7 @@
 - **10 ejemplos precargados**: ondas concentricas, silla de montar, gaussiana, y mas
 - **Descarga PNG** de la superficie generada
 - **Responsive** - funciona en desktop y mobile
+- **Instalable como PWA** - anade a la pantalla de inicio en Android, iOS y desktop; funciona offline despues de la primera carga
 - **Mensajes de error claros** para ecuaciones invalidas
 
 ## Stack tecnologico
@@ -101,19 +102,27 @@ ecuaciones-react/
 │   │   ├── ExamplesPanel.tsx    # Panel de ejemplos + sheet mobile
 │   │   ├── Footer.tsx           # Barra de atajos de teclado
 │   │   ├── Header.tsx           # Logo y titulo
+│   │   ├── InstallPrompt.tsx    # Tarjeta flotante de instalacion PWA
 │   │   ├── MeshControls.tsx     # Slider de resolucion
 │   │   ├── PlotViewer.tsx       # Grafico 3D ECharts (lazy)
 │   │   ├── StatusBar.tsx        # Indicador de estado
 │   │   └── WorkspaceBar.tsx     # Barra de herramientas
+│   ├── hooks/
+│   │   └── useInstallPrompt.ts  # Logica de beforeinstallprompt
 │   ├── lib/
 │   │   ├── mathParser.ts        # Parser de ecuaciones
-│   │   └── examples.ts          # Definiciones de ejemplos
+│   │   ├── examples.ts          # Definiciones de ejemplos
+│   │   ├── plotData.ts          # Generador del dataset ECharts
+│   │   └── pwa.ts               # Registro del service worker
 │   ├── store/
 │   │   └── index.ts             # Zustand store global
-│   ├── global.d.ts              # Shims de tipos (echarts, echarts-gl, css)
+│   ├── global.d.ts              # Shims de tipos (echarts, echarts-gl, css, PWA)
 │   ├── App.tsx                  # Layout principal
 │   ├── main.tsx                 # Entry point
 │   └── index.css                # Estilos globales + Tailwind
+├── public/                      # Assets estaticos (icons, manifest, sw)
+├── scripts/
+│   └── generate-icons.mjs       # Genera PNGs PWA con sharp
 ├── rsbuild.config.mjs           # Configuracion de Rspack
 ├── tsconfig.json                # Configuracion de TypeScript
 └── package.json
@@ -152,6 +161,20 @@ ecuaciones-react/
 | Rotar     | Arrastrar         |
 | Zoom      | Scroll            |
 | Desplazar | Shift + Arrastrar |
+
+## PWA / Instalacion
+
+Superficie3D se puede instalar como aplicacion independiente. La primera vez que la abras, aparecera una tarjeta discreta en la esquina inferior izquierda invitandote a instalarla.
+
+- **Chrome / Edge / Android**: la tarjeta muestra un boton **Instalar** que lanza el dialogo nativo del navegador.
+- **iOS / Safari**: la tarjeta muestra instrucciones para usar **Compartir -> Anadir a pantalla de inicio** (Safari no expone el evento `beforeinstallprompt`).
+- **Una vez instalada**, la aplicacion arranca en modo standalone sin barra del navegador y queda disponible offline gracias al service worker.
+
+Para regenerar los iconos despues de editar `public/icon.svg` o `public/icon-maskable.svg`:
+
+```bash
+pnpm icons
+```
 
 ## License
 
