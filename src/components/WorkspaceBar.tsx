@@ -3,7 +3,7 @@ import { useStore } from "../store";
 import { ECHARTS_CONTAINER_ID } from "../lib/plotData";
 
 const WORKSPACE_BUTTON_CLASS =
-  "w-[88px] min-h-[36px] border border-white/18 rounded-full bg-white/8 text-white font-mono text-[0.76rem] font-semibold cursor-pointer transition-all hover:border-ochre-400 hover:bg-ochre-400/16 hover:-translate-y-px active:translate-y-0";
+  "w-[88px] min-h-[36px] max-[640px]:w-[52px] max-[640px]:min-h-[26px] max-[640px]:px-1 max-[640px]:text-[0.6rem] border border-white/18 rounded-full bg-white/8 text-white font-mono text-[0.76rem] font-semibold cursor-pointer transition-all hover:border-ochre-400 hover:bg-ochre-400/16 hover:-translate-y-px active:translate-y-0";
 
 const subscribeFullscreen = (cb: () => void) => {
   document.addEventListener("fullscreenchange", cb);
@@ -54,7 +54,7 @@ export function WorkspaceBar() {
           {plotTitle}
         </h2>
       </div>
-      <div className="flex flex-wrap gap-2 shrink-0">
+      <div className="flex flex-wrap gap-2 max-[640px]:gap-1.5 shrink-0">
         {actions.map((a) => (
           <button
             key={a.key}

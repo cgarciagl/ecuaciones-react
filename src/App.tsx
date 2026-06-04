@@ -12,6 +12,7 @@ import {
 } from "./components/ExamplesPanel";
 import { WorkspaceBar } from "./components/WorkspaceBar";
 import { StatusBar } from "./components/StatusBar";
+import { MobileModeSelector } from "./components/MobileModeSelector";
 import { Footer } from "./components/Footer";
 import { InstallPrompt } from "./components/InstallPrompt";
 import { UpdatePrompt } from "./components/UpdatePrompt";
@@ -65,7 +66,10 @@ export default function App() {
 
       <Footer />
 
-      <FloatingExamplesButton />
+      <div className="fixed right-3.5 bottom-3.5 z-20 flex items-center gap-2 hidden max-[980px]:flex">
+        <MobileModeSelector />
+        <FloatingExamplesButton />
+      </div>
       <ExamplesSheet />
       <InstallPrompt />
       <UpdatePrompt />

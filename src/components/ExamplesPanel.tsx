@@ -86,7 +86,7 @@ export function FloatingExamplesButton() {
     <button
       type="button"
       onClick={() => useStore.getState().toggleExamples()}
-      className="fixed right-3.5 bottom-3.5 z-20 min-h-[54px] px-5 border border-white/28 rounded-full bg-[linear-gradient(145deg,#2f8f66,#2f5f46)] text-white shadow-[0_18px_38px_rgba(31,64,50,0.36)] cursor-pointer text-[0.84rem] font-extrabold tracking-[0.03em] uppercase hidden max-[980px]:block"
+      className="min-h-[40px] px-3.5 border border-white/28 rounded-full bg-[linear-gradient(145deg,#2f8f66,#2f5f46)] text-white shadow-[0_12px_26px_rgba(31,64,50,0.32)] cursor-pointer text-[0.74rem] font-extrabold tracking-[0.03em] uppercase"
     >
       Ejemplos
     </button>

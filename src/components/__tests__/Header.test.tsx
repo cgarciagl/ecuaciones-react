@@ -9,9 +9,8 @@ describe("Header", () => {
     expect(screen.getByText("3D")).toBeInTheDocument();
   });
 
-  it("renders the laboratorio subtitle and the visualizador badge", () => {
+  it("renders the laboratorio subtitle", () => {
     render(<Header />);
     expect(screen.getByText(/Laboratorio matematico/)).toBeInTheDocument();
-    expect(screen.getByText("Visualizador")).toBeInTheDocument();
   });
 });

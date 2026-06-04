@@ -20,9 +20,6 @@ export function Header() {
       </div>
 
       <div className="flex items-center gap-2.5 shrink-0">
-        <span className="px-3 py-1.5 border border-line rounded-full bg-white/72 text-ink-soft text-[0.7rem] font-mono font-semibold tracking-[0.08em] uppercase dark:bg-[#1a201a]/72">
-          Visualizador
-        </span>
         <ThemeToggle />
       </div>
     </header>

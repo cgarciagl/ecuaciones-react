@@ -11,7 +11,7 @@ describe("MeshControls", () => {
   it("renders the three style buttons", () => {
     render(<MeshControls />);
     expect(screen.getByRole("button", { name: "Malla" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Wireframe" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Estructura" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Puntos" })).toBeInTheDocument();
   });
 
@@ -24,7 +24,7 @@ describe("MeshControls", () => {
   it("clicking a style button updates the surface mode", async () => {
     const user = userEvent.setup();
     render(<MeshControls />);
-    await user.click(screen.getByRole("button", { name: "Wireframe" }));
+    await user.click(screen.getByRole("button", { name: "Estructura" }));
     expect(useStore.getState().surfaceMode).toBe("wireframe");
   });
 

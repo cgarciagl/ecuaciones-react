@@ -6,7 +6,7 @@ import { SectionHeader } from "./SectionHeader";
 
 const MODES: ReadonlyArray<{ id: SurfaceMode; label: string }> = [
   { id: "surface", label: "Malla" },
-  { id: "wireframe", label: "Wireframe" },
+  { id: "wireframe", label: "Estructura" },
   { id: "points", label: "Puntos" },
 ];
 
