@@ -174,7 +174,7 @@ export const INITIAL_VIEW_CONTROL = {
   beta: 30,
   distance: 200,
   center: [0, 0, 0],
-  rotateSensitivity: 10,
+  rotateSensitivity: 5,
   zoomSensitivity: 2,
   panSensitivity: 2,
 } as const;
